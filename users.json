@@ -1,0 +1,175 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "محمد أحمد",
+      "email": "m.ahmed@example.com",
+      "idNumber": "4010928376",
+      "type": "student",
+      "status": "active",
+      "registrationDate": "2024-08-20"
+    },
+    {
+      "id": 2,
+      "name": "سارة محمد",
+      "email": "s.mohamed@example.com",
+      "idNumber": "3019827465",
+      "type": "student",
+      "status": "active",
+      "registrationDate": "2024-08-20"
+    },
+    {
+      "id": 3,
+      "name": "خالد محمود",
+      "email": "k.mahmoud@example.com",
+      "idNumber": "5019283746",
+      "type": "technician",
+      "status": "inactive",
+      "registrationDate": "2024-06-05"
+    },
+    {
+      "id": 4,
+      "name": "د. مدحت فؤاد",
+      "email": "m.fouad@example.com",
+      "idNumber": "2019283746",
+      "type": "admin",
+      "status": "active",
+      "registrationDate": "2024-06-05"
+    },
+    {
+      "id": 5,
+      "name": "أحمد علي",
+      "email": "a.ali@example.com",
+      "idNumber": "6019283747",
+      "type": "student",
+      "status": "active",
+      "registrationDate": "2024-07-15"
+    },
+    {
+      "id": 6,
+      "name": "نورا سعد",
+      "email": "n.saad@example.com",
+      "idNumber": "7019283748",
+      "type": "student",
+      "status": "inactive",
+      "registrationDate": "2024-09-01"
+    },
+    {
+      "id": 7,
+      "name": "عمر كمال",
+      "email": "o.kamal@example.com",
+      "idNumber": "8019283749",
+      "type": "technician",
+      "status": "active",
+      "registrationDate": "2024-05-10"
+    },
+    {
+      "id": 8,
+      "name": "هناء سمير",
+      "email": "h.samir@example.com",
+      "idNumber": "9019283750",
+      "type": "student",
+      "status": "active",
+      "registrationDate": "2024-08-25"
+    },
+    {
+      "id": 9,
+      "name": "مصطفى حسن",
+      "email": "m.hassan@example.com",
+      "idNumber": "1019283751",
+      "type": "admin",
+      "status": "active",
+      "registrationDate": "2024-06-15"
+    },
+    {
+      "id": 10,
+      "name": "ياسمين وليد",
+      "email": "y.waleed@example.com",
+      "idNumber": "1119283752",
+      "type": "student",
+      "status": "inactive",
+      "registrationDate": "2024-07-30"
+    },
+    {
+      "id": 11,
+      "name": "رامي نبيل",
+      "email": "r.nabil@example.com",
+      "idNumber": "1219283753",
+      "type": "technician",
+      "status": "active",
+      "registrationDate": "2024-05-20"
+    },
+    {
+      "id": 12,
+      "name": "سلمى رامي",
+      "email": "s.rami@example.com",
+      "idNumber": "1319283754",
+      "type": "student",
+      "status": "active",
+      "registrationDate": "2024-09-05"
+    },
+    {
+      "id": 13,
+      "name": "د. علياء فاروق",
+      "email": "a.farouk@example.com",
+      "idNumber": "1419283755",
+      "type": "admin",
+      "status": "inactive",
+      "registrationDate": "2024-06-25"
+    },
+    {
+      "id": 14,
+      "name": "طارق جمال",
+      "email": "t.gamal@example.com",
+      "idNumber": "1519283756",
+      "type": "student",
+      "status": "active",
+      "registrationDate": "2024-08-10"
+    },
+    {
+      "id": 15,
+      "name": "فاطمة زكي",
+      "email": "f.zaki@example.com",
+      "idNumber": "1619283757",
+      "type": "student",
+      "status": "inactive",
+      "registrationDate": "2024-07-05"
+    },
+    {
+      "id": 16,
+      "name": "ياسر عماد",
+      "email": "y.emad@example.com",
+      "idNumber": "1719283758",
+      "type": "technician",
+      "status": "active",
+      "registrationDate": "2024-05-15"
+    },
+    {
+      "id": 17,
+      "name": "دينا أشرف",
+      "email": "d.ashraf@example.com",
+      "idNumber": "1819283759",
+      "type": "student",
+      "status": "active",
+      "registrationDate": "2024-08-30"
+    },
+    {
+      "id": 18,
+      "name": "د. وليد حمدي",
+      "email": "w.hamdy@example.com",
+      "idNumber": "1919283760",
+      "type": "admin",
+      "status": "active",
+      "registrationDate": "2024-06-10"
+    },
+    {
+      "id": 19,
+      "name": "نادر صلاح",
+      "email": "n.salah@example.com",
+      "idNumber": "2019283761",
+      "type": "student",
+      "status": "inactive",
+      "registrationDate": "2024-07-20"
+    }
+  ]
+}

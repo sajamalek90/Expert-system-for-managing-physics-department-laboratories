@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نظام إدارة مختبرات قسم الفيزياء - الأجهزة والمعدات</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.rtl.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- الشاشة الرئيسية بعد تسجيل الدخول -->
+    <div id="dashboard-screen">
+        <!-- القائمة الجانبية -->
+        <div class="sidebar" style="width: 250px;">
+            <div class="d-flex justify-content-center align-items-center py-4">
+                <i class="fas fa-atom fa-2x me-2"></i>
+                <h4 class="mb-0">مختبرات الفيزياء</h4>
+            </div>
+            <hr class="bg-light">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" href="dashboard.html" data-page="dashboard">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>لوحة التحكم</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="devices.html" data-page="devices">
+                        <i class="fas fa-microscope"></i>
+                        <span>الأجهزة والمعدات</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="reservations.html" data-page="reservations">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>الحجوزات</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="maintenance.html" data-page="maintenance">
+                        <i class="fas fa-tools"></i>
+                        <span>الصيانة</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="reports.html" data-page="reports">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>التقارير</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="users.html" data-page="users">
+                        <i class="fas fa-users"></i>
+                        <span>المستخدمين</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="settings.html" data-page="settings">
+                        <i class="fas fa-cog"></i>
+                        <span>الإعدادات</span>
+                    </a>
+                </li>
+            </ul>
+            <div class="mt-auto p-3">
+                <button id="logout-btn" class="btn btn-outline-light w-100">
+                    <i class="fas fa-sign-out-alt me-2"></i>تسجيل الخروج
+                </button>
+            </div>
+        </div>
+
+        <!-- المحتوى الرئيسي -->
+        <div class="main-content">
+            <!-- شريط التنقل العلوي -->
+            <nav class="navbar navbar-expand-lg navbar-light bg-white mb-4 rounded">
+                <div class="container-fluid">
+                    <button class="navbar-toggler" type="button">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="position-relative">
+                        <input type="text" class="form-control search-bar" placeholder="بحث عن جهاز، حجز، ...">
+                        <i class="fas fa-search search-icon"></i>
+                    </div>
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item dropdown me-3">
+                            <a class="nav-link position-relative" href="#" role="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-bell fa-lg"></i>
+                                <span class="notification-badge">3</span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end notification-menu">
+                                <h6 class="dropdown-header">الإشعارات</h6>
+                                <a class="dropdown-item" href="#">
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-shrink-0">
+                                            <i class="fas fa-exclamation-circle text-warning"></i>
+                                        </div>
+                                        <div class="flex-grow-1 ms-2">
+                                            <p class="mb-0">الميكروسكوب البصري يحتاج إلى صيانة</p>
+                                            <small class="text-muted">منذ ساعتين</small>
+                                        </div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-shrink-0">
+                                            <i class="fas fa-check-circle text-success"></i>
+                                        </div>
+                                        <div class="flex-grow-1 ms-2">
+                                            <p class="mb-0">تم تأكيد حجزك لمولد الإشعاع</p>
+                                            <small class="text-muted">منذ 3 ساعات</small>
+                                        </div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-shrink-0">
+                                            <i class="fas fa-info-circle text-primary"></i>
+                                        </div>
+                                        <div class="flex-grow-1 ms-2">
+                                            <p class="mb-0">تم إضافة جهاز جديد للمختبر</p>
+                                            <small class="text-muted">منذ يوم واحد</small>
+                                        </div>
+                                    </div>
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item text-center" href="#">عرض جميع الإشعارات</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown profile-dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                <img src="https://via.placeholder.com/35" alt="صورة المستخدم" class="profile-img">
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end">
+                                <h6 class="dropdown-header">د. أحمد محمد</h6>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-user me-2"></i>الملف الشخصي
+                                </a>
+                                <a class="dropdown-item" href="#">
+                                    <i class="fas fa-cog me-2"></i>الإعدادات
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item logout-link" href="#">
+                                    <i class="fas fa-sign-out-alt me-2"></i>تسجيل الخروج
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- صفحة الأجهزة والمعدات -->
+            <div id="devices-page" class="page-content">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2>الأجهزة والمعدات</h2>
+                    <div>
+                        <button class="btn btn-outline-primary me-2">
+                            <i class="fas fa-filter me-1"></i>تصفية
+                        </button>
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addDeviceModal">
+                            <i class="fas fa-plus me-1"></i>إضافة جهاز
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-3 mb-3">
+                                <select class="form-select">
+                                    <option selected>جميع الفئات</option>
+                                    <option>أجهزة بصرية</option>
+                                    <option>أجهزة قياس</option>
+                                    <option>أجهزة حرارية</option>
+                                    <option>أجهزة إشعاعية</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <select class="form-select">
+                                    <option selected>جميع الحالات</option>
+                                    <option>متاح</option>
+                                    <option>غير متاح</option>
+                                    <option>قيد الصيانة</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <select class="form-select">
+                                    <option selected>جميع المختبرات</option>
+                                    <option>معمل الميكانيكا</option>
+                                    <option>معمل الضوء</option>
+                                    <option>معمل الحرارة</option>
+                                    <option>معمل الكهرباء</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <div class="position-relative">
+                                    <input type="text" class="form-control" placeholder="البحث عن جهاز">
+                                    <i class="fas fa-search search-icon"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100">
+                            <div class="card-body text-center device-details-card">
+                                <i class="fas fa-microscope device-icon mb-3"></i>
+                                <h5>ميكروسكوب بصري</h5>
+                                <span class="status-available">متاح</span>
+                                <p class="text-muted mt-2">رقم الجهاز: PHY-MIC-001</p>
+                                <div class="mt-3">
+                                    <button class="btn btn-sm btn-primary me-2" data-bs-toggle="modal" data-bs-target="#reservationModal">
+                                        <i class="fas fa-calendar-plus me-1"></i>حجز
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#deviceDetailsModal">
+                                        <i class="fas fa-info-circle me-1"></i>التفاصيل
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100">
+                            <div class="card-body text-center device-details-card">
+                                <i class="fas fa-radiation device-icon mb-3"></i>
+                                <h5>مولد إشعاع</h5>
+                                <span class="status-maintenance">قيد الصيانة</span>
+                                <p class="text-muted mt-2">رقم الجهاز: PHY-RAD-002</p>
+                                <div class="mt-3">
+                                    <button class="btn btn-sm btn-secondary me-2" disabled>
+                                        <i class="fas fa-calendar-plus me-1"></i>حجز
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#deviceDetailsModal">
+                                        <i class="fas fa-info-circle me-1"></i>التفاصيل
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100">
+                            <div class="card-body text-center device-details-card">
+                                <i class="fas fa-wave-square device-icon mb-3"></i>
+                                <h5>مقياس الطيف الضوئي</h5>
+                                <span class="status-available">متاح</span>
+                                <p class="text-muted mt-2">رقم الجهاز: PHY-SPE-003</p>
+                                <div class="mt-3">
+                                    <button class="btn btn-sm btn-primary me-2" data-bs-toggle="modal" data-bs-target="#reservationModal">
+                                        <i class="fas fa-calendar-plus me-1"></i>حجز
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#deviceDetailsModal">
+                                        <i class="fas fa-info-circle me-1"></i>التفاصيل
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100">
+                            <div class="card-body text-center device-details-card">
+                                <i class="fas fa-bolt device-icon mb-3"></i>
+                                <h5>مقياس الجهد الكهربائي</h5>
+                                <span class="status-available">متاح</span>
+                                <p class="text-muted mt-2">رقم الجهاز: PHY-VOL-004</p>
+                                <div class="mt-3">
+                                    <button class="btn btn-sm btn-primary me-2" data-bs-toggle="modal" data-bs-target="#reservationModal">
+                                        <i class="fas fa-calendar-plus me-1"></i>حجز
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#deviceDetailsModal">
+                                        <i class="fas fa-info-circle me-1"></i>التفاصيل
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100">
+                            <div class="card-body text-center device-details-card">
+                                <i class="fas fa-temperature-high device-icon mb-3"></i>
+                                <h5>جهاز قياس الحرارة</h5>
+                                <span class="status-unavailable">غير متاح</span>
+                                <p class="text-muted mt-2">رقم الجهاز: PHY-TEM-005</p>
+                                <div class="mt-3">
+                                    <button class="btn btn-sm btn-secondary me-2" disabled>
+                                        <i class="fas fa-calendar-plus me-1"></i>حجز
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#deviceDetailsModal">
+                                        <i class="fas fa-info-circle me-1"></i>التفاصيل
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100">
+                            <div class="card-body text-center device-details-card">
+                                <i class="fas fa-atom device-icon mb-3"></i>
+                                <h5>جهاز تحليل الطيف</h5>
+                                <span class="status-available">متاح</span>
+                                <p class="text-muted mt-2">رقم الجهاز: PHY-SPE-006</p>
+                                <div class="mt-3">
+                                    <button class="btn btn-sm btn-primary me-2" data-bs-toggle="modal" data-bs-target="#reservationModal">
+                                        <i class="fas fa-calendar-plus me-1"></i>حجز
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#deviceDetailsModal">
+                                        <i class="fas fa-info-circle me-1"></i>التفاصيل
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة إضافة جهاز جديد -->
+    <div class="modal fade" id="addDeviceModal" tabindex="-1" aria-labelledby="addDeviceModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addDeviceModalLabel">إضافة جهاز جديد</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="deviceName" class="form-label">اسم الجهاز</label>
+                            <input type="text" class="form-control" id="deviceName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="deviceCategory" class="form-label">الفئة</label>
+                            <select class="form-select" id="deviceCategory" required>
+                                <option value="">اختر الفئة</option>
+                                <option value="optical">أجهزة بصرية</option>
+                                <option value="measurement">أجهزة قياس</option>
+                                <option value="thermal">أجهزة حرارية</option>
+                                <option value="radiation">أجهزة إشعاعية</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="deviceLab" class="form-label">المختبر</label>
+                            <select class="form-select" id="deviceLab" required>
+                                <option value="">اختر المختبر</option>
+                                <option value="optics">معمل الضوء</option>
+                                <option value="mechanics">معمل الميكانيكا</option>
+                                <option value="electricity">معمل الكهرباء</option>
+                                <option value="radiation">مختبر الإشعاع</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="deviceStatus" class="form-label">الحالة</label>
+                            <select class="form-select" id="deviceStatus" required>
+                                <option value="available">متاح</option>
+                                <option value="unavailable">غير متاح</option>
+                                <option value="maintenance">قيد الصيانة</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="devicePurchaseDate" class="form-label">تاريخ الشراء</label>
+                            <input type="date" class="form-control" id="devicePurchaseDate" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="deviceLifespan" class="form-label">العمر الافتراضي (سنوات)</label>
+                            <input type="number" class="form-control" id="deviceLifespan" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="deviceNotes" class="form-label">ملاحظات</label>
+                            <textarea class="form-control" id="deviceNotes" rows="3"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+                    <button type="button" class="btn btn-primary">حفظ الجهاز</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة تفاصيل الجهاز -->
+    <div class="modal fade" id="deviceDetailsModal" tabindex="-1" aria-labelledby="deviceDetailsModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deviceDetailsModalLabel">تفاصيل الجهاز</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="text-center mb-4">
+                        <i class="fas fa-microscope fa-4x mb-3" style="color: var(--primary-color);"></i>
+                        <h4>ميكروسكوب بصري</h4>
+                        <span class="status-available">متاح</span>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <p><strong>رقم الجهاز:</strong> PHY-MIC-001</p>
+                            <p><strong>الفئة:</strong> أجهزة بصرية</p>
+                            <p><strong>المختبر:</strong> معمل الضوء</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>تاريخ الشراء:</strong> 15-05-2020</p>
+                            <p><strong>العمر الافتراضي:</strong> 10 سنوات</p>
+                            <p><strong>آخر صيانة:</strong> 10-03-2025</p>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <h6>سجل الصيانة</h6>
+                        <div class="maintenance-history">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>10-03-2025: صيانة دورية</span>
+                                <span class="badge bg-success">مكتملة</span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>15-11-2024: تغيير عدسات</span>
+                                <span class="badge bg-success">مكتملة</span>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <span>20-06-2024: تنظيف شامل</span>
+                                <span class="badge bg-success">مكتملة</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <h6>ملاحظات</h6>
+                        <p>الجهاز بحالة ممتازة، يحتاج إلى صيانة دورية كل 6 أشهر.</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+                    <button type="button" class="btn btn-primary">تعديل</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة حجز جهاز -->
+    <div class="modal fade" id="reservationModal" tabindex="-1" aria-labelledby="reservationModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="reservationModalLabel">حجز جهاز</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label for="reservationDevice" class="form-label">اسم الجهاز</label>
+                            <input type="text" class="form-control" id="reservationDevice" value="ميكروسكوب بصري" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label for="reservationUser" class="form-label">اسم المستخدم</label>
+                            <input type="text" class="form-control" id="reservationUser" value="د. أحمد محمد" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label for="reservationDate" class="form-label">التاريخ</label>
+                            <input type="date" class="form-control" id="reservationDate" required>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="startTime" class="form-label">وقت البدء</label>
+                                <select class="form-select" id="startTime" required>
+                                    <option value="">اختر وقت البدء</option>
+                                    <option value="08:00">08:00 ص</option>
+                                    <option value="09:00">09:00 ص</option>
+                                    <option value="10:00">10:00 ص</option>
+                                    <option value="11:00">11:00 ص</option>
+                                    <option value="12:00">12:00 م</option>
+                                    <option value="13:00">01:00 م</option>
+                                    <option value="14:00">02:00 م</option>
+                                    <option value="15:00">03:00 م</option>
+                                    <option value="16:00">04:00 م</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="endTime" class="form-label">وقت الانتهاء</label>
+                                <select class="form-select" id="endTime" required>
+                                    <option value="">اختر وقت الانتهاء</option>
+                                    <option value="09:00">09:00 ص</option>
+                                    <option value="10:00">10:00 ص</option>
+                                    <option value="11:00">11:00 ص</option>
+                                    <option value="12:00">12:00 م</option>
+                                    <option value="13:00">01:00 م</option>
+                                    <option value="14:00">02:00 م</option>
+                                    <option value="15:00">03:00 م</option>
+                                    <option value="16:00">04:00 م</option>
+                                    <option value="17:00">05:00 م</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="reservationPurpose" class="form-label">الغرض من الاستخدام</label>
+                            <textarea class="form-control" id="reservationPurpose" rows="3" required></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+                    <button type="button" class="btn btn-primary">تأكيد الحجز</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- مكتبات JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="js/logout.js"></script>
+</body>
+</html>
