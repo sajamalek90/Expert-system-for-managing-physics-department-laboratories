@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>مختبرات الفيزياء</title>
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  
+</head>
+<body>
+
+  <div class="sidebar">
+    <div class="top">
+      <h2><i class="fas fa-atom"></i> مختبرات الفيزياء</h2>
+    </div>
+  
+    <div class="divider"></div>
+  
+    <ul class="menu">
+      <li><a href="dashboard.html" class="active"><i class="fas fa-tachometer-alt"></i> لوحة التحكم</a></li>
+      <li><a href="devices.html" ><i class="fas fa-microscope"></i> الأجهزة والمعدات</a></li>
+      <li><a href="reservations.html"><i class="fas fa-calendar-alt"></i> الحجوزات</a></li>
+      <li><a href="maintenance.html"><i class="fas fa-tools"></i> الصيانة</a></li>
+      <li><a href="reports.html"><i class="fas fa-chart-bar"></i> التقارير</a></li>
+      <li><a href="users.html"><i class="fas fa-users"></i> المستخدمين</a></li>
+    </ul>
+  
+    <div class="logout-btn" id="logout-btn">
+      <a href="#"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</a>
+    </div>
+  </div>
+  
+<div style="background-color: white; margin:5px; margin-right:30px; padding: 20px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); color: #333; margin-right: 250px; direction: rtl; margin-top: 20px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+     
+      <input type="text" placeholder="...بحث عن جهاز، حجز" style="padding: 8px 8px; border-radius: 20px; border: 1px solid #ccc; width: 90%; max-width: 800px; margin-top: 10px;">
+      
+      <div style="display: flex; align-items: center; gap: 10px;">
+        
+        <i class="fas fa-bell" style="position: relative; margin-left:24px; ">
+        <span style="margin-right: 39px;">صورة المستخدم</span>
+        <img src="https://cdn-icons-png.flaticon.com/512/747/747376.png" alt="صورة المستخدم" width="30" height="30" style="border-radius: 50%; ">
+
+          <span style="position: absolute; top: -8px; right: -10px; background-color: red; color: white; font-size: 10px; border-radius: 50%; padding: 2px 5px;">2</span>
+        </i>
+      </div>
+    </div>
+  </div>
+  
+  <div style="margin-right: 250px; margin-top: 20px; display: flex; justify-content: space-between; align-items: center; direction: rtl;">
+  
+    <div style="font-weight: bold; margin-left:-40px ;margin-right:50px ; font-size: 34px;">لوحة التحكم</div>
+  
+  
+    <button style="background-color:  #3f51b5; color: white;margin-left:40px ; border: none; border-radius: 5px; padding: 10px; font-size: 17px; cursor: pointer;">
+      <i class="fas fa-file-export"></i> تصدير التقارير
+    </button>
+  </div>
+  
+  <div style="display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; flex-direction: row-reverse; margin-right: 250px; direction: rtl;">
+    <div style="flex: 1 1 120px; background: white; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); text-align: center; padding: 10px;">
+      <i class="fas fa-calendar-check" style="color: #e91e63; font-size: 18px;"></i>
+      <h2 style="margin: 5px 0; font-size: 16px;">12</h2>
+      <p style="margin: 0; font-size: 13px;">حجوزات اليوم</p>
+    </div>
+    <div style="flex: 1 1 120px; background: white; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); text-align: center; padding: 10px;">
+      <i class="fas fa-tools" style="color: #ffc107; font-size: 18px;"></i>
+      <h2 style="margin: 5px 0; font-size: 16px;">5</h2>
+      <p style="margin: 0; font-size: 13px;">قيد الصيانة</p>
+    </div>
+    <div style="flex: 1 1 120px; background: white; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); text-align: center; padding: 10px;">
+      <i class="fas fa-check-circle" style="color: #4caf50; font-size: 18px;"></i>
+      <h2 style="margin: 5px 0; font-size: 16px;">35</h2>
+      <p style="margin: 0; font-size: 13px;">أجهزة متاحة</p>
+    </div>
+    <div style="flex: 1 1 120px; background: white; border-radius: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); text-align: center; padding: 10px;">
+      <i class="fas fa-microscope" style="color: #3f51b5; font-size: 18px;"></i>
+      <h2 style="margin: 5px 0; font-size: 16px;">42</h2>
+      <p style="margin: 0; font-size: 13px;">إجمالي الأجهزة</p>
+    </div>
+  </div>
+  
+  
+  
+  <div class="content">
+    <div class="card">
+        <h3 class="card-header">
+            الأجهزة التي تحتاج صيانة
+            <a href="#" class="view-all">عرض الكل</a>
+          </h3>
+          
+      <div class="card-content">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>اسم الجهاز</th>
+              <th>آخر صيانة</th>
+              <th>ساعات التشغيل</th>
+              <th>الأولوية</th>
+              <th>إجراءات</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>مولد إشعاع</td>
+              <td>10-04-2024</td>
+              <td>120 ساعة</td>
+              <td><span class="label high">عالية</span></td>
+              <td><span class="label low">جدولة</span></td>
+            </tr>
+            <tr>
+              <td>مقياس الطيف الضوئي</td>
+              <td>15-03-2025</td>
+              <td>95 ساعة</td>
+              <td><span class="label medium">متوسطة</span></td>
+              <td><span class="label low">جدولة</span></td>
+            </tr>
+            <tr>
+              <td>ميكرفون عالي الدقة</td>
+              <td>02-01-2025</td>
+              <td>150 ساعة</td>
+              <td><span class="label medium">متوسطة</span></td>
+              <td><span class="label low">جدولة</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+
+<div class="card-row">
+    <div class="card card-half long-card">
+
+        <h3 class="card-header">
+            حجوزات اليوم
+            <a href="#" class="view-all">عرض الكل</a>
+          </h3>
+          
+        <div class="card-content">
+          <table class="table">
+            <thead>
+              <tr><th>الوقت</th><th>الحجز</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>9:00 - 11:00</td><td>ميكروسكوب بصري - د. محمد أحمد - معمل الضوء</td></tr>
+              <tr><td>11:30 - 13:30</td><td>قياس المجال الكهربومغناطيسي - د. سمير علي - مختبر الكهرباء</td></tr>
+              <tr><td>14:00 - 16:00</td><td>مقياس الطيف - أ. فادي يوسف - معمل الذرة</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="card card-half">
+        <h3>نشاط المختبرات</h3>
+        <div class="card-content">
+          <div class="progress-bar"><span style="width: 75%; background-color: #2ecc71;">معمل الميكانيكا 75%</span></div>
+          <div class="progress-bar"><span style="width: 60%; background-color: #3498db;">معمل الضوء 60%</span></div>
+          <div class="progress-bar"><span style="width: 45%; background-color: #f1c40f;">معمل الحرارة 45%</span></div>
+          <div class="progress-bar"><span style="width: 90%; background-color: #e74c3c;">معمل الكهرباء 90%</span></div>
+          <div class="progress-bar"><span style="width: 30%; background-color: #1abc9c;">مختبر الذرة 30%</span></div>
+        </div>
+      </div>
+      
+    </div>
+
+  </div>
+
+
+  <script src="js/logout.js"></script>
+</body>
+</html>
+
+
