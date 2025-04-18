@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>التقويم</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.rtl.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/reservations.css">
+</head>
+<body>
+    <div class="sidebar" style="width: 250px;">
+        <div class="d-flex justify-content-center align-items-center py-4">
+            <i class="fas fa-atom fa-2x me-2"></i>
+            <h4 class="mb-0">مختبرات الفيزياء</h4>
+        </div>
+        <hr class="bg-light">
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link" href="dashboard.html" data-page="dashboard">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>لوحة التحكم</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="devices.html" data-page="devices">
+                    <i class="fas fa-microscope"></i>
+                    <span>الأجهزة والمعدات</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="reservations.html" data-page="reservations">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>الحجوزات</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="maintenance.html" data-page="maintenance">
+                    <i class="fas fa-tools"></i>
+                    <span>الصيانة</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="reports.html" data-page="reports">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>التقارير</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="users.html" data-page="users">
+                    <i class="fas fa-users"></i>
+                    <span>المستخدمين</span>
+                </a>
+            </li>
+        </ul>
+        <div class="mt-auto p-3">
+            <button id="logout-btn" class="btn btn-outline-light w-100">
+                <i class="fas fa-sign-out-alt me-2"></i>تسجيل الخروج
+            </button>
+        </div>
+    </div>
+
+    <div class="container">
+        <header>
+            <h1> الحجوزات</h1>
+            <button class="add-event-btn">+ حدث جديد</button>
+        </header>
+            <div class="calendar-section">
+                <div class="head"> تقويم الحجوزات</div>
+                <div class="calendar-header">
+                    <button id="prev-month"><i class="fas fa-chevron-right"></i></button>
+                    <h2 id="month-year">أبريل 2025</h2>
+                    <button id="next-month"><i class="fas fa-chevron-left"></i></button>
+                </div>
+                <div class="calendar-grid">
+                    <div class="day-name">السبت</div>
+                    <div class="day-name">الأحد</div>
+                    <div class="day-name">الإثنين</div>
+                    <div class="day-name">الثلاثاء</div>
+                    <div class="day-name">الأربعاء</div>
+                    <div class="day-name">الخميس</div>
+                    <div class="day-name">الجمعة</div>
+                </div>
+                <div class="calendar-days" id="calendar-days">
+                    <!-- الأيام ستُضاف ديناميكيًا باستخدام JavaScript -->
+                </div>
+            </div>
+            <!-- إضافة قسم جدول الأحداث القادمة -->
+            <div class="events-table-section">
+                <div class="head2"> الحجوزات الحاليه</div>
+                <table class="events-table">
+                    <thead>
+                        <tr>
+                            <th>اسم الجهاز</th>
+                            <th>التاريخ</th>
+                            <th>الوقت</th>
+                            <th>المستخدم</th>
+                            <th>المختبر</th>
+                            <th>الحالة</th>
+                            <th>اجرأت</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>ميكروسكوب بصري</td>
+                            <td>14-04-2025</td>
+                            <td>9:00 - 11:00</td>
+                            <td>د. محمد أحمد</td>
+                            <td>معمل الضوء</td>
+                            <td><span class="status confirmed">مؤكد</span></td>
+                            <td>
+                                <button class="action-btn edit">تعديل</button>
+                                <button class="action-btn delete">حذف</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>مقياس الجهد الكهربي</td>
+                            <td>14-04-2025</td>
+                            <td>11:30 - 13:30</td>
+                            <td>أ. سمير على</td>
+                            <td>مختبر الكهرومغناطيسيه</td>
+                            <td><span class="status confirmed">مؤكد</span></td>
+                            <td>
+                                <button class="action-btn edit">تعديل</button>
+                                <button class="action-btn delete">حذف</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>جهاز تحليل الطيف</td>
+                            <td>14-04-2025</td>
+                            <td>14:00 - 16:00</td>
+                            <td>د. ليلي حسن</td>
+                            <td>معمل الذرة</td>
+                            <td><span class="status pending">معلق</span></td>
+                            <td>
+                                <button class="action-btn edit">تعديل</button>
+                                <button class="action-btn delete">حذف</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>جهاز قياس الحراره</td>
+                            <td>16-04-2025</td>
+                            <td>10:00 - 12:00</td>
+                            <td>أ. فاطمه محمود</td>
+                            <td>معمل الحراره</td>
+                            <td><span class="status confirmed">مؤكد</span></td>
+                            <td>
+                                <button class="action-btn edit">تعديل</button>
+                                <button class="action-btn delete">حذف</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="js/logout.js"></script>
+    <script src="js/reservations.js"></script>
+</body>
+</html>
