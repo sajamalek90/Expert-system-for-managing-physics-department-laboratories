@@ -142,52 +142,50 @@
                 </div>
             </nav>
 
+            <!-- حاوية التنبيهات -->
+            <div id="alerts-container"></div>
+
             <!-- صفحة الأجهزة والمعدات -->
             <div id="devices-page" class="page-content">
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <h2>الأجهزة والمعدات</h2>
                     <div>
-                        <button class="btn btn-outline-primary me-2">
+                        <button id="filter-btn" class="btn btn-outline-primary me-2">
                             <i class="fas fa-filter me-1"></i>تصفية
                         </button>
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addDeviceModal">
+                        <button id="add-device-btn" class="btn btn-primary">
                             <i class="fas fa-plus me-1"></i>إضافة جهاز
                         </button>
                     </div>
                 </div>
 
-                <div class="card mb-4">
+                <!-- قسم الفلاتر -->
+                <div id="filters-card" class="card mb-4">
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-3 mb-3">
-                                <select class="form-select">
-                                    <option selected>جميع الفئات</option>
-                                    <option>أجهزة بصرية</option>
-                                    <option>أجهزة قياس</option>
-                                    <option>أجهزة حرارية</option>
-                                    <option>أجهزة إشعاعية</option>
+                                <select id="category-filter" class="form-select">
+                                    <option value="all" selected>جميع الفئات</option>
+                                    <!-- سيتم تعبئتها ديناميكيًا -->
                                 </select>
                             </div>
                             <div class="col-md-3 mb-3">
-                                <select class="form-select">
-                                    <option selected>جميع الحالات</option>
-                                    <option>متاح</option>
-                                    <option>غير متاح</option>
-                                    <option>قيد الصيانة</option>
+                                <select id="status-filter" class="form-select">
+                                    <option value="all" selected>جميع الحالات</option>
+                                    <option value="available">متاح</option>
+                                    <option value="unavailable">غير متاح</option>
+                                    <option value="maintenance">قيد الصيانة</option>
                                 </select>
                             </div>
                             <div class="col-md-3 mb-3">
-                                <select class="form-select">
-                                    <option selected>جميع المختبرات</option>
-                                    <option>معمل الميكانيكا</option>
-                                    <option>معمل الضوء</option>
-                                    <option>معمل الحرارة</option>
-                                    <option>معمل الكهرباء</option>
+                                <select id="lab-filter" class="form-select">
+                                    <option value="all" selected>جميع المختبرات</option>
+                                    <!-- سيتم تعبئتها ديناميكيًا -->
                                 </select>
                             </div>
                             <div class="col-md-3 mb-3">
                                 <div class="position-relative">
-                                    <input type="text" class="form-control" placeholder="البحث عن جهاز">
+                                    <input id="search-device" type="text" class="form-control" placeholder="البحث عن جهاز">
                                     <i class="fas fa-search search-icon"></i>
                                 </div>
                             </div>
@@ -195,115 +193,9 @@
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-md-4 mb-4">
-                        <div class="card h-100">
-                            <div class="card-body text-center device-details-card">
-                                <i class="fas fa-microscope device-icon mb-3"></i>
-                                <h5>ميكروسكوب بصري</h5>
-                                <span class="status-available">متاح</span>
-                                <p class="text-muted mt-2">رقم الجهاز: PHY-MIC-001</p>
-                                <div class="mt-3">
-                                    <button class="btn btn-sm btn-primary me-2" data-bs-toggle="modal" data-bs-target="#reservationModal">
-                                        <i class="fas fa-calendar-plus me-1"></i>حجز
-                                    </button>
-                                    <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#deviceDetailsModal">
-                                        <i class="fas fa-info-circle me-1"></i>التفاصيل
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 mb-4">
-                        <div class="card h-100">
-                            <div class="card-body text-center device-details-card">
-                                <i class="fas fa-radiation device-icon mb-3"></i>
-                                <h5>مولد إشعاع</h5>
-                                <span class="status-maintenance">قيد الصيانة</span>
-                                <p class="text-muted mt-2">رقم الجهاز: PHY-RAD-002</p>
-                                <div class="mt-3">
-                                    <button class="btn btn-sm btn-secondary me-2" disabled>
-                                        <i class="fas fa-calendar-plus me-1"></i>حجز
-                                    </button>
-                                    <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#deviceDetailsModal">
-                                        <i class="fas fa-info-circle me-1"></i>التفاصيل
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 mb-4">
-                        <div class="card h-100">
-                            <div class="card-body text-center device-details-card">
-                                <i class="fas fa-wave-square device-icon mb-3"></i>
-                                <h5>مقياس الطيف الضوئي</h5>
-                                <span class="status-available">متاح</span>
-                                <p class="text-muted mt-2">رقم الجهاز: PHY-SPE-003</p>
-                                <div class="mt-3">
-                                    <button class="btn btn-sm btn-primary me-2" data-bs-toggle="modal" data-bs-target="#reservationModal">
-                                        <i class="fas fa-calendar-plus me-1"></i>حجز
-                                    </button>
-                                    <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#deviceDetailsModal">
-                                        <i class="fas fa-info-circle me-1"></i>التفاصيل
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 mb-4">
-                        <div class="card h-100">
-                            <div class="card-body text-center device-details-card">
-                                <i class="fas fa-bolt device-icon mb-3"></i>
-                                <h5>مقياس الجهد الكهربائي</h5>
-                                <span class="status-available">متاح</span>
-                                <p class="text-muted mt-2">رقم الجهاز: PHY-VOL-004</p>
-                                <div class="mt-3">
-                                    <button class="btn btn-sm btn-primary me-2" data-bs-toggle="modal" data-bs-target="#reservationModal">
-                                        <i class="fas fa-calendar-plus me-1"></i>حجز
-                                    </button>
-                                    <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#deviceDetailsModal">
-                                        <i class="fas fa-info-circle me-1"></i>التفاصيل
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 mb-4">
-                        <div class="card h-100">
-                            <div class="card-body text-center device-details-card">
-                                <i class="fas fa-temperature-high device-icon mb-3"></i>
-                                <h5>جهاز قياس الحرارة</h5>
-                                <span class="status-unavailable">غير متاح</span>
-                                <p class="text-muted mt-2">رقم الجهاز: PHY-TEM-005</p>
-                                <div class="mt-3">
-                                    <button class="btn btn-sm btn-secondary me-2" disabled>
-                                        <i class="fas fa-calendar-plus me-1"></i>حجز
-                                    </button>
-                                    <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#deviceDetailsModal">
-                                        <i class="fas fa-info-circle me-1"></i>التفاصيل
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 mb-4">
-                        <div class="card h-100">
-                            <div class="card-body text-center device-details-card">
-                                <i class="fas fa-atom device-icon mb-3"></i>
-                                <h5>جهاز تحليل الطيف</h5>
-                                <span class="status-available">متاح</span>
-                                <p class="text-muted mt-2">رقم الجهاز: PHY-SPE-006</p>
-                                <div class="mt-3">
-                                    <button class="btn btn-sm btn-primary me-2" data-bs-toggle="modal" data-bs-target="#reservationModal">
-                                        <i class="fas fa-calendar-plus me-1"></i>حجز
-                                    </button>
-                                    <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#deviceDetailsModal">
-                                        <i class="fas fa-info-circle me-1"></i>التفاصيل
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <!-- قائمة الأجهزة -->
+                <div id="devices-container" class="row">
+                    <!-- سيتم تعبئتها ديناميكيًا -->
                 </div>
             </div>
         </div>
@@ -318,14 +210,14 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form id="add-device-form">
                         <div class="mb-3">
-                            <label for="deviceName" class="form-label">اسم الجهاز</label>
-                            <input type="text" class="form-control" id="deviceName" required>
+                            <label for="device-name" class="form-label">اسم الجهاز</label>
+                            <input type="text" class="form-control" id="device-name" required>
                         </div>
                         <div class="mb-3">
-                            <label for="deviceCategory" class="form-label">الفئة</label>
-                            <select class="form-select" id="deviceCategory" required>
+                            <label for="device-category" class="form-label">الفئة</label>
+                            <select class="form-select" id="device-category" required>
                                 <option value="">اختر الفئة</option>
                                 <option value="optical">أجهزة بصرية</option>
                                 <option value="measurement">أجهزة قياس</option>
@@ -334,40 +226,41 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="deviceLab" class="form-label">المختبر</label>
-                            <select class="form-select" id="deviceLab" required>
+                            <label for="device-lab" class="form-label">المختبر</label>
+                            <select class="form-select" id="device-lab" required>
                                 <option value="">اختر المختبر</option>
                                 <option value="optics">معمل الضوء</option>
                                 <option value="mechanics">معمل الميكانيكا</option>
                                 <option value="electricity">معمل الكهرباء</option>
                                 <option value="radiation">مختبر الإشعاع</option>
+                                <option value="thermal">معمل الحرارة</option>
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="deviceStatus" class="form-label">الحالة</label>
-                            <select class="form-select" id="deviceStatus" required>
+                            <label for="device-status" class="form-label">الحالة</label>
+                            <select class="form-select" id="device-status" required>
                                 <option value="available">متاح</option>
                                 <option value="unavailable">غير متاح</option>
                                 <option value="maintenance">قيد الصيانة</option>
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="devicePurchaseDate" class="form-label">تاريخ الشراء</label>
-                            <input type="date" class="form-control" id="devicePurchaseDate" required>
+                            <label for="device-purchase-date" class="form-label">تاريخ الشراء</label>
+                            <input type="date" class="form-control" id="device-purchase-date" required>
                         </div>
                         <div class="mb-3">
-                            <label for="deviceLifespan" class="form-label">العمر الافتراضي (سنوات)</label>
-                            <input type="number" class="form-control" id="deviceLifespan" required>
+                            <label for="device-lifespan" class="form-label">العمر الافتراضي (سنوات)</label>
+                            <input type="number" class="form-control" id="device-lifespan" required>
                         </div>
                         <div class="mb-3">
-                            <label for="deviceNotes" class="form-label">ملاحظات</label>
-                            <textarea class="form-control" id="deviceNotes" rows="3"></textarea>
+                            <label for="device-notes" class="form-label">ملاحظات</label>
+                            <textarea class="form-control" id="device-notes" rows="3"></textarea>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+                            <button type="submit" class="btn btn-primary">حفظ الجهاز</button>
                         </div>
                     </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
-                    <button type="button" class="btn btn-primary">حفظ الجهاز</button>
                 </div>
             </div>
         </div>
@@ -383,47 +276,36 @@
                 </div>
                 <div class="modal-body">
                     <div class="text-center mb-4">
-                        <i class="fas fa-microscope fa-4x mb-3" style="color: var(--primary-color);"></i>
-                        <h4>ميكروسكوب بصري</h4>
-                        <span class="status-available">متاح</span>
+                        <i id="device-details-icon" class="fas fa-microscope fa-4x mb-3" style="color: var(--primary-color);"></i>
+                        <h4 id="device-details-title">ميكروسكوب بصري</h4>
+                        <span id="device-details-status" class="status-available">متاح</span>
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <p><strong>رقم الجهاز:</strong> PHY-MIC-001</p>
-                            <p><strong>الفئة:</strong> أجهزة بصرية</p>
-                            <p><strong>المختبر:</strong> معمل الضوء</p>
+                            <p><strong>رقم الجهاز:</strong> <span id="device-id"></span></p>
+                            <p><strong>الفئة:</strong> <span id="device-category"></span></p>
+                            <p><strong>المختبر:</strong> <span id="device-lab"></span></p>
                         </div>
                         <div class="col-md-6">
-                            <p><strong>تاريخ الشراء:</strong> 15-05-2020</p>
-                            <p><strong>العمر الافتراضي:</strong> 10 سنوات</p>
-                            <p><strong>آخر صيانة:</strong> 10-03-2025</p>
+                            <p><strong>تاريخ الشراء:</strong> <span id="device-purchase-date"></span></p>
+                            <p><strong>العمر الافتراضي:</strong> <span id="device-lifespan"></span></p>
+                            <p><strong>آخر صيانة:</strong> <span id="device-last-maintenance"></span></p>
                         </div>
                     </div>
                     <div class="mb-3">
                         <h6>سجل الصيانة</h6>
-                        <div class="maintenance-history">
-                            <div class="d-flex justify-content-between mb-2">
-                                <span>10-03-2025: صيانة دورية</span>
-                                <span class="badge bg-success">مكتملة</span>
-                            </div>
-                            <div class="d-flex justify-content-between mb-2">
-                                <span>15-11-2024: تغيير عدسات</span>
-                                <span class="badge bg-success">مكتملة</span>
-                            </div>
-                            <div class="d-flex justify-content-between">
-                                <span>20-06-2024: تنظيف شامل</span>
-                                <span class="badge bg-success">مكتملة</span>
-                            </div>
+                        <div id="maintenance-history" class="maintenance-history">
+                            <!-- سيتم تعبئته ديناميكيًا -->
                         </div>
                     </div>
                     <div class="mb-3">
                         <h6>ملاحظات</h6>
-                        <p>الجهاز بحالة ممتازة، يحتاج إلى صيانة دورية كل 6 أشهر.</p>
+                        <p id="device-notes"></p>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
-                    <button type="button" class="btn btn-primary">تعديل</button>
+                    <button type="button" id="edit-device-btn" class="btn btn-primary">تعديل</button>
                 </div>
             </div>
         </div>
@@ -438,23 +320,24 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form id="reservation-form">
                         <div class="mb-3">
-                            <label for="reservationDevice" class="form-label">اسم الجهاز</label>
-                            <input type="text" class="form-control" id="reservationDevice" value="ميكروسكوب بصري" readonly>
+                            <label for="reservation-device" class="form-label">اسم الجهاز</label>
+                            <input type="text" class="form-control" id="reservation-device" readonly>
+                            <input type="hidden" id="reservation-device-id">
                         </div>
                         <div class="mb-3">
-                            <label for="reservationUser" class="form-label">اسم المستخدم</label>
-                            <input type="text" class="form-control" id="reservationUser" value="د. أحمد محمد" readonly>
+                            <label for="reservation-user" class="form-label">اسم المستخدم</label>
+                            <input type="text" class="form-control" id="reservation-user" value="د. أحمد محمد" readonly>
                         </div>
                         <div class="mb-3">
-                            <label for="reservationDate" class="form-label">التاريخ</label>
-                            <input type="date" class="form-control" id="reservationDate" required>
+                            <label for="reservation-date" class="form-label">التاريخ</label>
+                            <input type="date" class="form-control" id="reservation-date" required>
                         </div>
                         <div class="row mb-3">
                             <div class="col-md-6">
-                                <label for="startTime" class="form-label">وقت البدء</label>
-                                <select class="form-select" id="startTime" required>
+                                <label for="start-time" class="form-label">وقت البدء</label>
+                                <select class="form-select" id="start-time" required>
                                     <option value="">اختر وقت البدء</option>
                                     <option value="08:00">08:00 ص</option>
                                     <option value="09:00">09:00 ص</option>
@@ -468,8 +351,8 @@
                                 </select>
                             </div>
                             <div class="col-md-6">
-                                <label for="endTime" class="form-label">وقت الانتهاء</label>
-                                <select class="form-select" id="endTime" required>
+                                <label for="end-time" class="form-label">وقت الانتهاء</label>
+                                <select class="form-select" id="end-time" required>
                                     <option value="">اختر وقت الانتهاء</option>
                                     <option value="09:00">09:00 ص</option>
                                     <option value="10:00">10:00 ص</option>
@@ -484,14 +367,14 @@
                             </div>
                         </div>
                         <div class="mb-3">
-                            <label for="reservationPurpose" class="form-label">الغرض من الاستخدام</label>
-                            <textarea class="form-control" id="reservationPurpose" rows="3" required></textarea>
+                            <label for="reservation-purpose" class="form-label">الغرض من الاستخدام</label>
+                            <textarea class="form-control" id="reservation-purpose" rows="3" required></textarea>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+                            <button type="submit" class="btn btn-primary">تأكيد الحجز</button>
                         </div>
                     </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
-                    <button type="button" class="btn btn-primary">تأكيد الحجز</button>
                 </div>
             </div>
         </div>
@@ -500,6 +383,7 @@
     <!-- مكتبات JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="js/devices.js"></script>
     <script src="js/logout.js"></script>
 </body>
 </html>

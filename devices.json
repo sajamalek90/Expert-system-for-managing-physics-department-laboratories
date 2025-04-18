@@ -1,0 +1,149 @@
+[
+    {
+        "id": "PHY-MIC-001",
+        "name": "ميكروسكوب بصري",
+        "icon": "fas fa-microscope",
+        "status": "available",
+        "statusText": "متاح",
+        "category": "optical",
+        "categoryText": "أجهزة بصرية",
+        "lab": "optics",
+        "labText": "معمل الضوء",
+        "purchaseDate": "2020-05-15",
+        "lifespan": 10,
+        "lastMaintenance": "2025-03-10",
+        "maintenanceHistory": [
+            {
+            "date": "2025-03-10",
+            "description": "صيانة دورية",
+            "status": "completed"
+            },
+            {
+            "date": "2024-11-15",
+            "description": "تغيير عدسات",
+            "status": "completed"
+            },
+            {
+            "date": "2024-06-20",
+            "description": "تنظيف شامل",
+            "status": "completed"
+            }
+        ],
+        "notes": "الجهاز بحالة ممتازة، يحتاج إلى صيانة دورية كل 6 أشهر."
+    },
+    {
+        "id": "PHY-RAD-002",
+        "name": "مولد إشعاع",
+        "icon": "fas fa-radiation",
+        "status": "maintenance",
+        "statusText": "قيد الصيانة",
+        "category": "radiation",
+        "categoryText": "أجهزة إشعاعية",
+        "lab": "radiation",
+        "labText": "مختبر الإشعاع",
+        "purchaseDate": "2019-09-22",
+        "lifespan": 8,
+        "lastMaintenance": "2025-02-18",
+        "maintenanceHistory": [
+            {
+            "date": "2025-02-18",
+            "description": "استبدال مولد الأشعة",
+            "status": "in-progress"
+            },
+            {
+            "date": "2024-10-05",
+            "description": "فحص دوري",
+            "status": "completed"
+            }
+        ],
+        "notes": "يحتاج إلى مراقبة مستمرة للإشعاع."
+    },
+    {
+        "id": "PHY-SPE-003",
+        "name": "مقياس الطيف الضوئي",
+        "icon": "fas fa-wave-square",
+        "status": "available",
+        "statusText": "متاح",
+        "category": "optical",
+        "categoryText": "أجهزة بصرية",
+        "lab": "optics",
+        "labText": "معمل الضوء",
+        "purchaseDate": "2021-03-10",
+        "lifespan": 10,
+        "lastMaintenance": "2024-12-15",
+        "maintenanceHistory": [
+            {
+            "date": "2024-12-15",
+            "description": "معايرة الجهاز",
+            "status": "completed"
+            }
+        ],
+        "notes": "دقة عالية في القياس، يحتاج معايرة كل 6 أشهر."
+    },
+    {
+        "id": "PHY-VOL-004",
+        "name": "مقياس الجهد الكهربائي",
+        "icon": "fas fa-bolt",
+        "status": "available",
+        "statusText": "متاح",
+        "category": "measurement",
+        "categoryText": "أجهزة قياس",
+        "lab": "electricity",
+        "labText": "معمل الكهرباء",
+        "purchaseDate": "2022-01-20",
+        "lifespan": 7,
+        "lastMaintenance": "2025-01-05",
+        "maintenanceHistory": [
+            {
+            "date": "2025-01-05",
+            "description": "فحص وتنظيف",
+            "status": "completed"
+            }
+        ],
+        "notes": "يستخدم لقياس الجهد الكهربائي بدقة عالية."
+    },
+    {
+        "id": "PHY-TEM-005",
+        "name": "جهاز قياس الحرارة",
+        "icon": "fas fa-temperature-high",
+        "status": "unavailable",
+        "statusText": "غير متاح",
+        "category": "thermal",
+        "categoryText": "أجهزة حرارية",
+        "lab": "thermal",
+        "labText": "معمل الحرارة",
+        "purchaseDate": "2020-08-12",
+        "lifespan": 6,
+        "lastMaintenance": "2024-09-30",
+        "maintenanceHistory": [
+            {
+            "date": "2024-09-30",
+            "description": "استبدال مستشعر الحرارة",
+            "status": "completed"
+            }
+        ],
+        "notes": "حاليًا قيد الاستخدام في بحث علمي لمدة فصل دراسي."
+    },
+    {
+        "id": "PHY-SPE-006",
+        "name": "جهاز تحليل الطيف",
+        "icon": "fas fa-atom",
+        "status": "available",
+        "statusText": "متاح",
+        "category": "measurement",
+        "categoryText": "أجهزة قياس",
+        "lab": "optics",
+        "labText": "معمل الضوء",
+        "purchaseDate": "2022-05-05",
+        "lifespan": 10,
+        "lastMaintenance": "2025-02-22",
+        "maintenanceHistory": [
+            {
+            "date": "2025-02-22",
+            "description": "معايرة وتحديث البرمجيات",
+            "status": "completed"
+            }
+        ],
+        "notes": "جهاز حديث بإمكانيات متطورة لتحليل الطيف."
+    }
+]
