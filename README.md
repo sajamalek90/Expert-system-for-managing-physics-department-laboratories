@@ -87,11 +87,3 @@ vanilla/
 3. قم بعمل commit للتغييرات | Commit your changes
 4. قم بعمل push للفرع | Push to the branch
 5. قم بفتح طلب pull | Open a pull request
-
-## الترخيص | License
-
-هذا المشروع مرخص تحت رخصة MIT | This project is licensed under the MIT License.
-
-## الدعم | Support
-
-للحصول على الدعم، يرجى التواصل مع مدير النظام | For support, please contact the system administrator.
