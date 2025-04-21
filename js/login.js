@@ -18,8 +18,8 @@ document.getElementById("loginForm").addEventListener("submit", function (e) {
     } else if (username.length < 5) {
         document.getElementById("usernameError").textContent = "اسم المستخدم يجب أن يكون 5 أحرف على الأقل.";
         isValid = false;
-    } else if (!/^[a-zA-Z0-9_ء-ي]+$/.test(username)) {
-        document.getElementById("usernameError").textContent = "اسم المستخدم يجب أن يحتوي فقط على أحرف وأرقام بدون رموز خاصة.";
+    } else if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(username)) {
+        document.getElementById("usernameError").textContent = "يرجى إدخال بريد إلكتروني صالح (حروف إنجليزية، أرقام، ورموز مثل @، .، _، -).";
         isValid = false;
     }
 
