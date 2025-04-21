@@ -14,19 +14,19 @@
         "lastMaintenance": "2025-03-10",
         "maintenanceHistory": [
             {
-            "date": "2025-03-10",
-            "description": "صيانة دورية",
-            "status": "completed"
+                "date": "2025-03-10",
+                "description": "صيانة دورية",
+                "status": "completed"
             },
             {
-            "date": "2024-11-15",
-            "description": "تغيير عدسات",
-            "status": "completed"
+                "date": "2024-11-15",
+                "description": "تغيير عدسات",
+                "status": "completed"
             },
             {
-            "date": "2024-06-20",
-            "description": "تنظيف شامل",
-            "status": "completed"
+                "date": "2024-06-20",
+                "description": "تنظيف شامل",
+                "status": "completed"
             }
         ],
         "notes": "الجهاز بحالة ممتازة، يحتاج إلى صيانة دورية كل 6 أشهر."
@@ -46,14 +46,14 @@
         "lastMaintenance": "2025-02-18",
         "maintenanceHistory": [
             {
-            "date": "2025-02-18",
-            "description": "استبدال مولد الأشعة",
-            "status": "in-progress"
+                "date": "2025-02-18",
+                "description": "استبدال مولد الأشعة",
+                "status": "in-progress"
             },
             {
-            "date": "2024-10-05",
-            "description": "فحص دوري",
-            "status": "completed"
+                "date": "2024-10-05",
+                "description": "فحص دوري",
+                "status": "completed"
             }
         ],
         "notes": "يحتاج إلى مراقبة مستمرة للإشعاع."
@@ -73,9 +73,9 @@
         "lastMaintenance": "2024-12-15",
         "maintenanceHistory": [
             {
-            "date": "2024-12-15",
-            "description": "معايرة الجهاز",
-            "status": "completed"
+                "date": "2024-12-15",
+                "description": "معايرة الجهاز",
+                "status": "completed"
             }
         ],
         "notes": "دقة عالية في القياس، يحتاج معايرة كل 6 أشهر."
@@ -95,9 +95,9 @@
         "lastMaintenance": "2025-01-05",
         "maintenanceHistory": [
             {
-            "date": "2025-01-05",
-            "description": "فحص وتنظيف",
-            "status": "completed"
+                "date": "2025-01-05",
+                "description": "فحص وتنظيف",
+                "status": "completed"
             }
         ],
         "notes": "يستخدم لقياس الجهد الكهربائي بدقة عالية."
@@ -117,9 +117,9 @@
         "lastMaintenance": "2024-09-30",
         "maintenanceHistory": [
             {
-            "date": "2024-09-30",
-            "description": "استبدال مستشعر الحرارة",
-            "status": "completed"
+                "date": "2024-09-30",
+                "description": "استبدال مستشعر الحرارة",
+                "status": "completed"
             }
         ],
         "notes": "حاليًا قيد الاستخدام في بحث علمي لمدة فصل دراسي."
@@ -139,9 +139,9 @@
         "lastMaintenance": "2025-02-22",
         "maintenanceHistory": [
             {
-            "date": "2025-02-22",
-            "description": "معايرة وتحديث البرمجيات",
-            "status": "completed"
+                "date": "2025-02-22",
+                "description": "معايرة وتحديث البرمجيات",
+                "status": "completed"
             }
         ],
         "notes": "جهاز حديث بإمكانيات متطورة لتحليل الطيف."
