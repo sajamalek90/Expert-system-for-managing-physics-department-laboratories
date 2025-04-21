@@ -116,10 +116,9 @@ margin-right: 250px;
 .text-primary {
     color: #093053;
     padding: 8px 16px;
-    border-radius: 6px;
     text-decoration: none;
     transition: background-color 0.3s ease;
   }
  
-  
-  
+  .section { display: none; }
+    .active { display: block; }
