@@ -4,41 +4,64 @@ let currentUserId = null;
 let currentPage = 1;
 const rowsPerPage = 5;
 
+// إضافة مخزن للتغييرات المحلية
+const localUserChanges = {};
+
 // تحميل البيانات عند بدء التشغيل
 document.addEventListener('DOMContentLoaded', function() {
   loadUsers();
   setupEventListeners();
 });
 
-// تحميل بيانات المستخدمين من ملف JSON خارجي
+// تحميل بيانات المستخدمين من API
 function loadUsers() {
   showLoading(true);
+  console.log('جاري تحميل البيانات...');
   
-  fetch('users.json')
+  fetch('http://labmangmentsystemapi.runasp.net/api/Auth/AllUsers', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    },
+    cache: 'no-cache' // منع التخزين المؤقت للمتصفح
+  })
     .then(response => {
+      console.log('استجابة API:', response.status, response.statusText);
       if (!response.ok) {
-        throw new Error('فشل في جلب البيانات');
+        throw new Error(`فشل في جلب البيانات: ${response.status}`);
       }
       return response.json();
     })
     .then(data => {
-      users = data.users || data; // يعتمد على هيكل ملف JSON
+      console.log('البيانات المستلمة:', data);
+          data.sort((a, b) => new Date(b.registrationDate) - new Date(a.registrationDate));
+
+
       updateTable();
     })
     .catch(error => {
       console.error('حدث خطأ:', error);
-      showAlert('حدث خطأ أثناء جلب بيانات المستخدمين', 'danger');
+      users = []; // استخدم قائمة فارغة في حالة الخطأ
+      showAlert(`حدث خطأ أثناء جلب بيانات المستخدمين: ${error.message}`, 'danger');
+      updateTable(); // قم بتحديث الجدول حتى في حالة الخطأ
     })
     .finally(() => {
       showLoading(false);
     });
-  }
+}
 
 // إعداد معالجات الأحداث
 function setupEventListeners() {
-  // البحث
-  document.getElementById("searchInput").addEventListener("input", updateTable);
-  
+  // البحث مع تأخير زمني
+  let searchTimeout;
+  document.getElementById("searchInput").addEventListener("input", function() {
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(() => {
+      currentPage = 1;
+      updateTable();
+    }, 300); // تقليل وقت التأخير إلى 300 مللي ثانية
+  });
   
   document.querySelectorAll("#userTabs .nav-link").forEach(tab => {
     tab.addEventListener("click", function(e) {
@@ -76,12 +99,34 @@ function setupEventListeners() {
   document.getElementById("confirmDeleteBtn").addEventListener("click", function() {
     deleteUser();
   });
+}
 
+// تحويل حالة المستخدم إلى العربية
+function getStatusArabic(status) {
+  if (!status) return 'غير نشط';
   
+  const statusMap = {
+    'active': 'نشط',
+    'inactive': 'غير نشط',
+    'نشط': 'نشط',
+    'غير نشط': 'غير نشط',
+    true: 'نشط',
+    false: 'غير نشط'
+  };
+  return statusMap[status] || 'غير نشط';
+}
+
+// تحويل حالة المستخدم إلى الإنجليزية (للاستخدام في نموذج التعديل)
+function getStatusEnglish(status) {
+  if (!status) return 'inactive';
+  
+  const statusValue = String(status).toLowerCase();
+  return (statusValue === 'نشط' || statusValue === 'active' || status === true) ? 'active' : 'inactive';
 }
 
 // عرض البيانات في الجدول
 function renderTable(data) {
+  // console.log('جاري عرض البيانات:', data);
   const tbody = document.getElementById("userTableBody");
   tbody.innerHTML = "";
   
@@ -97,16 +142,18 @@ function renderTable(data) {
   }
   
   pageUsers.forEach((user) => {
+    console.log('معالجة مستخدم:', user);
+    const status = getStatusArabic(user.status);
     const row = document.createElement("tr");
     row.innerHTML = `
-      <td>${user.name}</td>
-      <td>${user.email}</td>
-      <td>${user.idNumber}</td>
-      <td>${getUserTypeArabic(user.type)}</td>
-      <td><span class="status-badge ${user.status === 'active' ? 'status-active' : 'status-inactive'}">
-        ${user.status === 'active' ? 'نشط' : 'غير نشط'}
+      <td>${user.name || ''}</td>
+      <td>${user.email || ''}</td>
+      <td>${user.nationalId || ''}</td>
+      <td>${getUserTypeArabic(user.type) || ''}</td>
+      <td><span class="status-badge ${status === 'نشط' ? 'status-active' : 'status-inactive'}">
+        ${status}
       </span></td>
-      <td>${formatDate(user.registrationDate)}</td>
+      <td>${formatDate(user.registrationDate) || ''}</td>
       <td class="action-buttons">
         <button class="btn btn-warning btn-sm" onclick="openEditModal('${user.id}')">
           <i class="fas fa-edit me-1"></i>تعديل
@@ -124,10 +171,18 @@ function renderTable(data) {
 
 // تحويل نوع المستخدم إلى العربية
 function getUserTypeArabic(type) {
+  if (!type) return '';
+  
   const types = {
-    'admin': 'مشرف',
+    'admin': 'دكتور',
     'technician': 'فني',
-    'student': 'طالب'
+    'student': 'طالب',
+    'Admin': 'دكتور',
+    'Technician': 'فني',
+    'Student': 'طالب',
+    'دكتور': 'دكتور',
+    'فني': 'فني',
+    'طالب': 'طالب'
   };
   return types[type] || type;
 }
@@ -135,8 +190,13 @@ function getUserTypeArabic(type) {
 // تنسيق التاريخ
 function formatDate(dateString) {
   if (!dateString) return 'غير معروف';
-  const date = new Date(dateString);
-  return date.toLocaleDateString('ar-EG');
+  try {
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) return 'غير معروف';
+    return date.toLocaleDateString('ar-EG');
+  } catch (e) {
+    return 'غير معروف';
+  }
 }
 
 // عرض ترقيم الصفحات
@@ -151,13 +211,13 @@ function renderPagination(total) {
   const prevLi = document.createElement("li");
   prevLi.className = `page-item ${currentPage === 1 ? 'disabled' : ''}`;
   prevLi.innerHTML = `<a class="page-link" href="#" aria-label="السابق"><span aria-hidden="true">&laquo;</span></a>`;
-  prevLi.addEventListener("click", (e) => {
-    e.preventDefault();
-    if (currentPage > 1) {
+  if (currentPage > 1) {
+    prevLi.addEventListener("click", (e) => {
+      e.preventDefault();
       currentPage--;
       updateTable();
-    }
-  });
+    });
+  }
   pagination.appendChild(prevLi);
   
   // الصفحات
@@ -218,127 +278,452 @@ function renderPagination(total) {
   const nextLi = document.createElement("li");
   nextLi.className = `page-item ${currentPage === totalPages ? 'disabled' : ''}`;
   nextLi.innerHTML = `<a class="page-link" href="#" aria-label="التالي"><span aria-hidden="true">&raquo;</span></a>`;
-  nextLi.addEventListener("click", (e) => {
-    e.preventDefault();
-    if (currentPage < totalPages) {
+  if (currentPage < totalPages) {
+    nextLi.addEventListener("click", (e) => {
+      e.preventDefault();
       currentPage++;
       updateTable();
-    }
-  });
+    });
+  }
   pagination.appendChild(nextLi);
 }
 
-// تحديث الجدول
+// تحديث الجدول مع البحث والفلترة
 function updateTable() {
   let search = document.getElementById("searchInput").value.toLowerCase();
-  let role = document.querySelector("#userTabs .nav-link.active").dataset.role;
+  let activeTab = document.querySelector("#userTabs .nav-link.active");
+  let role = activeTab ? activeTab.dataset.role : "all"; // fallback to 'all'
+
   
-  let filtered = users.filter(user => {
-    const matchesSearch = user.name.toLowerCase().includes(search) || 
-                        user.email.toLowerCase().includes(search) || 
-                        user.idNumber.toString().includes(search);
-    const matchesRole = role === "all" || user.type === role;
-    return matchesSearch && matchesRole;
-  });
+  console.log('معايير البحث:', { search, role });
+  showLoading(true);
+
+  let apiUrl = 'http://labmangmentsystemapi.runasp.net/api/Auth/AllUsers';
   
-  renderTable(filtered);
+  // إذا كان هناك بحث، نستخدم نقطة نهاية البحث
+  if (search) {
+    apiUrl = `http://labmangmentsystemapi.runasp.net/api/Auth/Search?query=${encodeURIComponent(search)}`;
+    console.log('رابط البحث:', apiUrl);
+  }
+  // إذا كان هناك فلتر، نستخدم نقطة نهاية الفلتر
+  else if (role !== 'all') {
+    // تحويل نوع المستخدم إلى المصطلح المناسب للـ API
+    let userType;
+    if (role === 'student') userType = 'طالب';
+    else if (role === 'technician') userType = 'فني';
+    else if (role === 'admin') userType = 'دكتور';
+    else userType = role;
+    
+    apiUrl = `http://labmangmentsystemapi.runasp.net/api/Auth/Filter?type=${encodeURIComponent(userType)}`;
+    console.log('رابط الفلتر:', apiUrl);
+  }
+
+  fetch(apiUrl, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    },
+    cache: 'no-cache'
+  })
+    .then(response => {
+      
+      // response.json().sort((a, b) => new Date(b.registrationDate) - new Date(a.registrationDate));
+
+      console.log('استجابة API للبحث:', response.status, response.statusText);
+      if (!response.ok) {
+        throw new Error(`فشل في جلب البيانات: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      data.sort((a, b) => new Date(b.registrationDate) - new Date(a.registrationDate));
+
+      // console.log('نتيجة البحث:', data);
+      if (Array.isArray(data)) {
+        // مراجعة البيانات وحل مشكلة الحالة
+        users = data.map(user => {
+          // تصحيح حالة المستخدم إذا كانت خطأ
+          if (user.status === false || user.status === 'false') {
+            user.status = 'غير نشط';
+          } else if (user.status === true || user.status === 'true') {
+            user.status = 'نشط';
+          }
+          
+          // تطبيق التغييرات المحلية إذا وجدت
+          const userIdStr = String(user.id);
+          if (localUserChanges[userIdStr] && localUserChanges[userIdStr].status) {
+            console.log(`تطبيق الحالة المحلية للمستخدم ${user.name} في البحث: ${localUserChanges[userIdStr].status}`);
+            user.status = localUserChanges[userIdStr].status;
+          }
+          
+          return user;
+        });
+        
+       
+        
+      } else if (data && typeof data === 'object') {
+        // إذا كانت النتيجة كائن واحد، نحوله إلى مصفوفة
+        const user = data;
+        // تصحيح حالة المستخدم إذا كانت خطأ
+        if (user.status === false || user.status === 'false') {
+          user.status = 'غير نشط';
+        } else if (user.status === true || user.status === 'true') {
+          user.status = 'نشط';
+        }
+        
+        // تطبيق التغييرات المحلية إذا وجدت
+        const userIdStr = String(user.id);
+        if (localUserChanges[userIdStr] && localUserChanges[userIdStr].status) {
+          console.log(`تطبيق الحالة المحلية للمستخدم ${user.name} في البحث: ${localUserChanges[userIdStr].status}`);
+          user.status = localUserChanges[userIdStr].status;
+        }
+        
+        // التحقق من عدم حذف المستخدم محلياً
+        if (!(localUserChanges[userIdStr] && localUserChanges[userIdStr].deleted)) {
+          users = [user];
+        } else {
+          console.log(`استبعاد المستخدم المحذوف محلياً من نتائج البحث: ${user.name} (${user.id})`);
+          users = [];
+        }
+      } else {
+        users = [];
+        console.warn('تم استلام بيانات غير صالحة من API');
+      }
+      renderTable(users);
+    })
+    .catch(error => {
+      console.error('حدث خطأ في البحث:', error);
+      users = []; // استخدم قائمة فارغة في حالة الخطأ
+      showAlert(`حدث خطأ أثناء جلب البيانات: ${error.message}`, 'danger');
+      renderTable(users); // عرض جدول فارغ في حالة الخطأ
+    })
+    .finally(() => {
+      showLoading(false);
+    });
 }
 
 // فتح نموذج التعديل
 function openEditModal(userId) {
-  const user = users.find(u => u.id == userId);
+  console.log('فتح نافذة التعديل للمستخدم بالمعرف:', userId);
+  
+  // تحويل userId إلى سلسلة نصية للمقارنة
+  const userIdStr = String(userId);
+  const user = users.find(u => String(u.id) === userIdStr);
   
   if (user) {
-    document.getElementById("editUserId").value = user.id;
-    document.getElementById("editName").value = user.name;
-    document.getElementById("editEmail").value = user.email;
-    document.getElementById("editId").value = user.idNumber;
-    document.getElementById("editType").value = user.type;
-    document.getElementById("editStatus").value = user.status;
+    console.log("userrrrrrrrrrr", user);
     
-    const editModal = new bootstrap.Modal(document.getElementById("editUserModal"));
-    editModal.show();
+    try {
+      console.log('بيانات المستخدم للتعديل:', user);
+      document.getElementById("editUserId").value = user.id;
+      document.getElementById("editName").value = user.name || '';
+      document.getElementById("editEmail").value = user.email || '';
+      document.getElementById("editId").value = user.nationalId || '';
+      document.getElementById("editType").value= user.type||''
+     
+      
+      // استخدام دالة getStatusEnglish لتحويل الحالة إلى القيمة المناسبة للنموذج (active/inactive)
+      document.getElementById("editStatus").value = getStatusEnglish(user.status);
+      
+      // عرض النافذة
+      const editModalEl = document.getElementById('editUserModal');
+      let editModal = bootstrap.Modal.getInstance(editModalEl);
+      if (!editModal) {
+        editModal = new bootstrap.Modal(editModalEl);
+      }
+      editModal.show();
+
+    } catch (error) {
+      console.error('حدث خطأ أثناء تعبئة نموذج التعديل:', error, error.stack);
+      showAlert('حدث خطأ أثناء محاولة فتح نموذج التعديل.', 'danger');
+    }
+  } else {
+    console.warn('لم يتم العثور على المستخدم بالـ ID:', userId);
+    console.log('المستخدمين المتاحين:', users);
+    showAlert('لم يتم العثور على بيانات المستخدم المحدد.', 'warning');
   }
 }
 
 // عرض تأكيد الحذف
 function showDeleteConfirmation(userId) {
+
+  console.log('عرض تأكيد الحذف للمستخدم:', userId);
   currentUserId = userId;
-  const deleteModal = new bootstrap.Modal(document.getElementById("confirmDeleteModal"));
+  const deleteModalEl = document.getElementById("confirmDeleteModal");
+  let deleteModal = bootstrap.Modal.getInstance(deleteModalEl);
+  if (!deleteModal) {
+    deleteModal = new bootstrap.Modal(deleteModalEl);
+  }
   deleteModal.show();
 }
 
 // إضافة مستخدم جديد
 function addUser() {
-  const today = new Date().toISOString().split('T')[0];
-  
+  const nameInput = document.getElementById('nameInput');
+  const emailInput = document.getElementById('emailInput');
+  const idInput = document.getElementById('idInput');
+  const phoneInput = document.getElementById('phoneInput');
+  const passwordInput = document.getElementById('passwordInput');
+  const typeInput = document.getElementById('typeInput');
+  const statusInput = document.getElementById('statusInput');
+
+  // التحقق من صحة الحقول
+  if (!nameInput.value || !emailInput.value || !idInput.value || !phoneInput.value ||
+      !passwordInput.value || !typeInput.value || !statusInput.value) {
+    showAlert('يرجى ملء جميع الحقول المطلوبة', 'warning');
+    return;
+  }
+
+  // تجهيز بيانات المستخدم الجديد
   const newUser = {
-    id: users.length > 0 ? Math.max(...users.map(u => u.id)) + 1 : 1,
-    name: document.getElementById("nameInput").value,
-    email: document.getElementById("emailInput").value,
-    idNumber: document.getElementById("idInput").value,
-    type: document.getElementById("typeInput").value,
-    status: "active",
-    registrationDate: today
+    name: nameInput.value,
+    email: emailInput.value,
+    nationalId: idInput.value,
+    phoneNumber: phoneInput.value,
+    type: typeInput.value,
+    status: statusInput.value,
+    registrationDate: new Date().toISOString(),
+    password: passwordInput.value
   };
-  
-  users.unshift(newUser);
-  
-  // إغلاق النموذج وإعادة تعيينه
-  const addModal = bootstrap.Modal.getInstance(document.getElementById("addUserModal"));
-  addModal.hide();
-  document.getElementById("addUserForm").reset();
-  document.getElementById("addUserForm").classList.remove('was-validated');
-  
-  // تحديث الجدول
-  currentPage = 1;
-  updateTable();
-  
-  // إظهار رسالة نجاح
-  showAlert('تم إضافة المستخدم بنجاح', 'success');
+
+  console.log('بيانات المستخدم الجديد:', newUser);
+
+  showLoading(true);
+
+  fetch('http://labmangmentsystemapi.runasp.net/api/Auth/AddUser', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    },
+    body: JSON.stringify(newUser)
+  })
+    .then(response => {
+      if (!response.ok) {
+        return response.text().then(text => {
+          throw new Error(text || 'فشل في إضافة المستخدم');
+        });
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log('نتيجة إضافة المستخدم:', data);
+
+      // التحقق إذا تم الإضافة بنجاح
+      if (data.message=="User created successfully") {
+        showAlert('✅ تم إضافة المستخدم بنجاح', 'success');
+
+        const addUserModalEl = document.getElementById('addUserModal');
+        const addUserModal = bootstrap.Modal.getInstance(addUserModalEl);
+        if (addUserModal) {
+          addUserModal.hide();
+        }
+
+        document.getElementById('addUserForm').reset();
+        document.getElementById('addUserForm').classList.remove('was-validated');
+
+        loadUsers();
+      } else {
+        showAlert('⚠️ لم يتم إضافة المستخدم - تحقق من البيانات أو حاول لاحقًا', 'warning');
+      }
+    })
+    .catch(error => {
+      console.error('حدث خطأ:', JSON.parse(error.message).message);
+
+      showAlert(`❌ حدث خطأ أثناء إضافة المستخدم: ${JSON.parse(error.message).message}`, 'danger');
+    })
+    .finally(() => {
+      showLoading(false);
+    });
 }
 
 // تحديث بيانات المستخدم
 function updateUser() {
-  const userId = document.getElementById("editUserId").value;
-  const userIndex = users.findIndex(u => u.id == userId);
-  
-  if (userIndex !== -1) {
-    users[userIndex] = {
-      ...users[userIndex],
-      name: document.getElementById("editName").value,
-      email: document.getElementById("editEmail").value,
-      idNumber: document.getElementById("editId").value,
-      type: document.getElementById("editType").value,
-      status: document.getElementById("editStatus").value
-    };
-    
-    // إغلاق النموذج
-    const editModal = bootstrap.Modal.getInstance(document.getElementById("editUserModal"));
-    editModal.hide();
-    
-    // تحديث الجدول
-    updateTable();
-    
-    // إظهار رسالة نجاح
-    showAlert('تم تحديث بيانات المستخدم بنجاح', 'success');
+  const userId = document.getElementById('editUserId').value;
+  const nameInput = document.getElementById('editName');
+  const emailInput = document.getElementById('editEmail');
+  const idInput = document.getElementById('editId');
+  const typeInput = document.getElementById('editType');
+  const statusInput = document.getElementById('editStatus');
+
+  console.log('بيانات التحديث:', {
+    userId,
+    name: nameInput.value,
+    email: emailInput.value,
+    nationalId: idInput.value,
+    type: typeInput.value,
+    status: statusInput.value
+  });
+
+  // التحقق من صحة البيانات
+  if (!nameInput.value || !emailInput.value || !idInput.value || !typeInput.value) {
+    showAlert('يرجى ملء جميع الحقول المطلوبة', 'warning');
+    return;
   }
+
+  // البحث عن المستخدم الحالي للاحتفاظ بالبيانات الموجودة
+  const userIdStr = String(userId);
+  const currentUserIndex = users.findIndex(u => String(u.id) === userIdStr);
+  const currentUser = currentUserIndex !== -1 ? users[currentUserIndex] : {};
+
+  // تحويل نوع المستخدم إلى العربية
+
+  // تحويل الحالة بشكل واضح وصريح للـ API
+
+  
+
+  const updatedUser = {
+    id: userId,
+    name: nameInput.value,
+    email: emailInput.value,
+    nationalId: idInput.value,
+    type: typeInput.value,
+    status: statusInput.value, // استخدام القيمة العربية التي تم تعيينها أعلاه
+    // الاحتفاظ بالبيانات الموجودة إذا كانت متاحة
+    registrationDate: currentUser.registrationDate || new Date().toISOString(),
+    phoneNumber: currentUser.phoneNumber || "01012345678",
+    password: currentUser.password || "12345678"
+  };
+
+  console.log('بيانات المستخدم المرسلة للتحديث:', updatedUser);
+
+  // حفظ التغييرات محليًا للتغلب على مشاكل الخادم
+ 
+
+  showLoading(true);
+
+  fetch(`http://labmangmentsystemapi.runasp.net/api/Auth/UpdateUserById/${userId}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    },
+    body: JSON.stringify(updatedUser)
+  })
+    .then(response => {
+      console.log('رمز الاستجابة للتعديل:', response.status, response.statusText);
+      
+      if (!response.ok) {
+        return response.text().then(text => {
+          console.error('نص خطأ التعديل:', text);
+          throw new Error(text || 'فشل في تحديث بيانات المستخدم');
+        });
+      }
+      
+      // محاولة تحليل الرد كـ JSON، وإذا فشل فالعودة بكائن نجاح بسيط
+      const contentType = response.headers.get('content-type');
+      if (contentType && contentType.includes('application/json')) {
+        return response.json();
+      } else {
+        return { success: true, user: updatedUser };
+      }
+    })
+    .then(data => {
+      console.log('نتيجة تحديث المستخدم:', data);
+      
+      // تحديث البيانات في المصفوفة المحلية
+      if (currentUserIndex !== -1) {
+        // تحديث المستخدم الموجود في المصفوفة
+        users[currentUserIndex] = {
+          ...users[currentUserIndex],
+          ...updatedUser
+        };
+        
+        // تحديث الجدول فورًا لعرض التغييرات للمستخدم
+        renderTable(users);
+      }
+      
+      showAlert('تم تحديث بيانات المستخدم بنجاح', 'success');
+      
+      // إغلاق النافذة
+      const editUserModalEl = document.getElementById('editUserModal');
+      const editUserModal = bootstrap.Modal.getInstance(editUserModalEl);
+      if (editUserModal) {
+        editUserModal.hide();
+      }
+      
+      // مسح النموذج
+      document.getElementById('editUserForm').reset();
+      document.getElementById('editUserForm').classList.remove('was-validated');
+      
+      // إعادة تحميل البيانات من الخادم للتأكد من المزامنة
+      loadUsers();
+    })
+    .catch(error => {
+      console.error('حدث خطأ في تحديث المستخدم:', error);
+      showAlert(`حدث خطأ أثناء تحديث بيانات المستخدم: ${error.message}`, 'danger');
+    })
+    .finally(() => {
+      showLoading(false);
+    });
 }
 
 // حذف المستخدم
 function deleteUser() {
-  users = users.filter(u => u.id != currentUserId);
+  console.log(currentUserId,"user id");
   
-  // إغلاق النموذج
-  const deleteModal = bootstrap.Modal.getInstance(document.getElementById("confirmDeleteModal"));
-  deleteModal.hide();
+  // if (!currentUserId) {
+  //   console.error('لا يوجد معرف للمستخدم المراد حذفه');
+  //   showAlert('حدث خطأ: لم يتم تحديد المستخدم', 'danger');
+  //   console.log("we heteeeeeeeeeeeeeee");
+    
+  //   return;
+  // }
+
+  // console.log('جاري حذف المستخدم بالمعرف:', currentUserId);
+  // console.log('نوع المعرف:', typeof currentUserId);
+  // console.log('المستخدم المحدد:', users.find(u => u.id === currentUserId));
   
-  // تحديث الجدول
-  currentPage = 1;
-  updateTable();
-  
-  // إظهار رسالة نجاح
-  showAlert('تم حذف المستخدم بنجاح', 'success');
+  showLoading(true);
+console.log("V222222", currentUserId);
+
+  const deleteUrl = `http://labmangmentsystemapi.runasp.net/api/Auth/DeleteUserById/${currentUserId}`;
+  console.log('رابط الحذف:', deleteUrl);
+
+  fetch(deleteUrl, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    }
+  })
+    .then(response => {
+      console.log('رمز الاستجابة للحذف:', response.status, response.statusText);
+      console.log('رأس الاستجابة:', response.headers);
+      
+      if (!response.ok) {
+        return response.text().then(text => {
+          console.error('نص الخطأ:', text);
+          throw new Error(text || 'فشل في حذف المستخدم');
+        });
+      }
+      
+      return { success: true };
+    })
+    .then(data => {
+      console.log('نتيجة عملية الحذف:', data);
+      
+      // إغلاق المودال
+      const deleteModalEl = document.getElementById('confirmDeleteModal');
+      const deleteModal = bootstrap.Modal.getInstance(deleteModalEl);
+      if (deleteModal) {
+        deleteModal.hide();
+      }
+      
+      showAlert('تم حذف المستخدم بنجاح', 'success');
+      
+      // إعادة تحميل البيانات
+      loadUsers();
+    })
+    .catch(error => {
+      console.error('حدث خطأ في عملية الحذف:', error);
+      showAlert(`حدث خطأ أثناء حذف المستخدم: ${error.message}`, 'danger');
+    })
+    .finally(() => {
+      showLoading(false);
+      currentUserId = null;
+    });
 }
 
 // إظهار/إخفاء مؤشر التحميل
