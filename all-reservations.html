@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <title>جميع الحجوزات</title>
+  <style>
+    :root {
+      --primary-color: #3f51b5;
+      --secondary-color: #ff4081;
+      --dark-color: #303f9f;
+      --light-color: #f5f5f5;
+      --success-color: #4caf50;
+      --warning-color: #ffc107;
+      --danger-color: #f44336;
+    }
+    
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    .sidebar {
+      width: 250px;
+      height: 100vh;
+      background-color: var(--primary-color); 
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 20px;
+      position: fixed;
+      right: 0;
+      top: 0;
+    }
+    
+    .sidebar .top {
+      margin-bottom: 22px;
+      text-align: center;
+      width: 100%;
+    }
+    
+    .sidebar .top h2 {
+      font-size: 22px;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    
+    .divider {
+      width: 100%; 
+      height: 1px;
+      background-color: rgba(255, 255, 255, 0.3);
+      margin: 40px 0 20px; 
+    }
+    
+    .menu {
+      list-style: none;
+      padding: 0;
+      width: 100%;
+    }
+    
+    .menu li {
+      width: 100%;
+      margin-bottom: 6px;
+    }
+    
+    .menu a {
+      display: flex;
+      align-items: center;
+      padding: 12px 20px;
+      color: white;
+      text-decoration: none;
+      transition: background 0.2s ease;
+    }
+    
+    .menu a.active,
+    .menu a:hover {
+      background-color: rgba(255,255,255,0.1);
+    }
+    
+    .menu a i {
+      margin-left: 10px;
+      font-size: 16px;
+    }
+    
+    .logout {
+    
+      width: 90%;
+      padding-bottom: 20px;
+    }
+    
+    .logout a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      border: 1px solid white;
+      border-radius: 8px;
+      background-color: transparent;
+      color: white;
+      text-decoration: none;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    
+    .logout a:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    .logout a i {
+      margin-left: 8px;
+    }
+    
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+    
+    .container {
+      padding: 20px;
+      max-width: 1200px;
+    margin-right: 250px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+     /* مثال عشان يبان العنصر */
+    }
+    
+    h1 {
+      color: #3f51b5;
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 38px;
+      font-weight: bold;
+    }
+    table {
+      width: 90%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      background-color: white;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      border-radius: 10px;
+      overflow: hidden;
+      font-size: 14px;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 15px;
+      text-align: right;
+    }
+    th {
+      background-color: #3f51b5;
+      color: white;
+      font-weight: bold;
+      font-size: 15px;
+    }
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+    tr:hover {
+      background-color: #f5f5f5;
+    }
+  </style>
+</head>
+<body>
+  
+  <div class="sidebar">
+    <div class="top">
+      <h2><i class="fas fa-atom"></i> مختبرات الفيزياء</h2>
+    </div>
+  
+    <div class="divider"></div>
+  
+    <ul class="menu">
+      <li><a href="dashboard.html" class="active"><i class="fas fa-tachometer-alt"></i> لوحة التحكم</a></li>
+      <li><a href="devices.html" ><i class="fas fa-microscope"></i> الأجهزة والمعدات</a></li>
+      <li><a href="reservations.html"><i class="fas fa-calendar-alt"></i> الحجوزات</a></li>
+      <li><a href="maintenance.html"><i class="fas fa-tools"></i> الصيانة</a></li>
+      <li><a href="reports.html"><i class="fas fa-chart-bar"></i> التقارير</a></li>
+      <li><a href="users.html"><i class="fas fa-users"></i> المستخدمين</a></li>
+    </ul>
+  
+    <div class="logout">
+      <a href="#"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</a>
+    </div>
+  </div>
+  <div class="container">
+    <h1>جميع الحجوزات</h1>
+    <table id="allReservationsTable">
+      <thead>
+        <tr>
+          <th>التاريخ والوقت</th>
+          <th>اسم الجهاز</th>
+          <th>المستخدم</th>
+          <th>المختبر</th>
+          <th>الغرض</th>
+        </tr>
+      </thead>
+      <tbody id="allReservationsBody">
+        <!-- Reservations will be loaded here -->
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    let allReservations = []; // Global variable to store all reservations
+
+    async function loadAllReservations() {
+      try {
+        const response = await fetch('http://labmangmentsystemapi.runasp.net/api/Reservations/');
+        if (!response.ok) {
+          throw new Error('فشل في جلب البيانات');
+        }
+        const reservations = await response.json();
+        allReservations = reservations; // Store all reservations
+        
+        const tableBody = document.getElementById('allReservationsBody');
+        tableBody.innerHTML = '';
+        
+        // Sort reservations by date and time
+        reservations.sort((a, b) => {
+          if (a.date !== b.date) {
+            return a.date.localeCompare(b.date);
+          }
+          return a.startTime.localeCompare(b.startTime);
+        });
+        
+        // Add all reservations to the table
+        displayReservations(reservations);
+        
+      } catch (error) {
+        console.error('Error:', error);
+        document.getElementById('allReservationsBody').innerHTML = `
+          <tr>
+            <td colspan="5" style="text-align: center; color: red;">
+              حدث خطأ في تحميل الحجوزات: ${error.message}
+            </td>
+          </tr>
+        `;
+      }
+    }
+    function displayReservations(reservations) {
+      const tableBody = document.getElementById('allReservationsBody');
+      tableBody.innerHTML = '';
+    
+      const limitedReservations = reservations.slice(0, 20); // عرض أول 20 فقط
+    
+      limitedReservations.forEach(reservation => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${reservation.date} ${reservation.startTime} - ${reservation.endTime}</td>
+          <td>${reservation.deviceName}</td>
+          <td>${reservation.userName}</td>
+          <td>${reservation.labName}</td>
+          <td>${reservation.purpose || '-'}</td>
+        `;
+        tableBody.appendChild(row);
+      });
+    }
+      
+    // Load all reservations when the page loads
+    window.onload = loadAllReservations;
+  </script>
+</body>
+</html> 

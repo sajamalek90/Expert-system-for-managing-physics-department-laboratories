@@ -3,11 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>التقويم</title>
+    <title>الحجوزات</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.rtl.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="css/reservations.css">
+    <style>
+        :root {
+    --primary-color: #3f51b5;
+    --secondary-color: #ff4081;
+    --dark-color: #303f9f;
+    --light-color: #f5f5f5;
+    --success-color: #4caf50;
+    --warning-color: #ffc107;
+    --danger-color: #f44336;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+}
+
+.sidebar {
+    background-color: var(--primary-color);
+    color: white;
+    height: 100vh;
+    position: fixed;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s;
+    z-index: 1000;
+}
+
+.sidebar .nav-link {
+    color: rgba(255, 255, 255, 0.85);
+    border-radius: 0;
+    padding: 12px 20px;
+    margin: 5px 0;
+    transition: all 0.3s;
+}
+
+.sidebar .nav-link:hover, .sidebar .nav-link.active {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    border-right: 4px solid var(--secondary-color);
+}
+
+.sidebar .nav-link i {
+    margin-left: 10px;
+    width: 24px;
+    text-align: center;
+}
+@media (max-width: 992px) {
+    .sidebar {
+        width: 70px;
+        text-align: center;
+    }
+    
+    .sidebar .nav-link span {
+        display: none;
+    }
+    
+    .sidebar .nav-link i {
+        margin: 0;
+        font-size: 1.2rem;
+    }
+    }
+    </style>
 </head>
 <body>
     <div class="sidebar" style="width: 250px;">
@@ -64,98 +125,200 @@
     <div class="container">
         <header>
             <h1> الحجوزات</h1>
-            <button class="add-event-btn">+ حدث جديد</button>
+            <button class="add-event-btn" id="add-event-btn">+ حجز جديد</button>
         </header>
-            <div class="calendar-section">
-                <div class="head"> تقويم الحجوزات</div>
-                <div class="calendar-header">
-                    <button id="prev-month"><i class="fas fa-chevron-right"></i></button>
-                    <h2 id="month-year">أبريل 2025</h2>
-                    <button id="next-month"><i class="fas fa-chevron-left"></i></button>
+        <div class="calendar-section">
+            <div class="head"> تقويم الحجوزات</div>
+            <div class="calendar-header">
+                <button id="prev-month"><i class="fas fa-chevron-right"></i></button>
+                <h2 id="month-year">أبريل 2025</h2>
+                <button id="next-month"><i class="fas fa-chevron-left"></i></button>
+            </div>
+            <div class="calendar-grid">
+                <div class="day-name">السبت</div>
+                <div class="day-name">الأحد</div>
+                <div class="day-name">الإثنين</div>
+                <div class="day-name">الثلاثاء</div>
+                <div class="day-name">الأربعاء</div>
+                <div class="day-name">الخميس</div>
+                <div class="day-name">الجمعة</div>
+            </div>
+            <div class="calendar-days" id="calendar-days">
+                <!-- الأيام ستُضاف ديناميكيًا باستخدام JavaScript -->
+            </div>
+        </div>
+        <!-- إضافة قسم جدول الأحداث القادمة -->
+        <div class="events-table-section">
+            <div class="head2"> الحجوزات الحاليه</div>
+            <table class="events-table">
+                <thead>
+                    <tr>
+                        <th>اسم الجهاز</th>
+                        <th>التاريخ</th>
+                        <th>الوقت</th>
+                        <th>المستخدم</th>
+                        <th>المختبر</th>
+                        <th>الحالة</th>
+                        <th>اجرأت</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>ميكروسكوب بصري</td>
+                        <td>14-04-2025</td>
+                        <td>9:00 - 11:00</td>
+                        <td>د. محمد أحمد</td>
+                        <td>معمل الضوء</td>
+                        <td><span class="status confirmed">مؤكد</span></td>
+                        <td>
+                            <button class="action-btn edit">تعديل</button>
+                            <button class="action-btn delete">حذف</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>مقياس الجهد الكهربي</td>
+                        <td>14-04-2025</td>
+                        <td>11:30 - 13:30</td>
+                        <td>أ. سمير على</td>
+                        <td>مختبر الكهرومغناطيسيه</td>
+                        <td><span class="status confirmed">مؤكد</span></td>
+                        <td>
+                            <button class="action-btn edit">تعديل</button>
+                            <button class="action-btn delete">حذف</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>جهاز تحليل الطيف</td>
+                        <td>14-04-2025</td>
+                        <td>14:00 - 16:00</td>
+                        <td>د. ليلي حسن</td>
+                        <td>معمل الذرة</td>
+                        <td><span class="status pending">معلق</span></td>
+                        <td>
+                            <button class="action-btn edit">تعديل</button>
+                            <button class="action-btn delete">حذف</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>جهاز قياس الحراره</td>
+                        <td>16-04-2025</td>
+                        <td>10:00 - 12:00</td>
+                        <td>أ. فاطمه محمود</td>
+                        <td>معمل الحراره</td>
+                        <td><span class="status confirmed">مؤكد</span></td>
+                        <td>
+                            <button class="action-btn edit">تعديل</button>
+                            <button class="action-btn delete">حذف</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- النافذة المنبثقة لإضافة حدث جديد -->
+    <div class="modal" id="event-modal">
+        <div class="modal-content">
+           <div class="form-head">
+            <h2>حجز جهاز</h2>
+            <span class="close">×</span>
+          </div>
+            <br>
+            <div class="form-group">
+                <label for="device-name">اختيار الجهاز:</label>
+                <select id="device-name" required>
+                  <option disabled selected>اختر الجهاز...</option>
+                </select>
+              </div>              
+            <div class="form-group">
+                <label for="device-name">اسم الجهاز</label>
+                <input type="text" id="device-name" name="device-name">
+            </div>
+            <div class="form-group">
+                <label for="user-name">اسم المستخدم</label>
+                <input type="text" id="user-name" name="user-name">
+            </div>
+            <div class="form-group">
+                <label for="lap-name">المختبر</label>
+                <input type="text" id="lap-name" name="lap-name">
+            </div>
+            <div class="form-group">
+                <label for="event-date">التاريخ</label>
+                <input type="date" id="event-date" name="event-date">
+            </div>
+            <div class="form-group time-group">
+                <div class="time-input">
+                    <label for="start-time">وقت البدء</label>
+                    <select id="start-time" name="start-time">
+                        <option value="" disabled selected>اختر وقت البدء</option>
+                        <option value="00:00">00:00</option>
+                        <option value="07:00">07:00</option>
+                        <option value="07:30">07:30</option>
+                        <option value="08:00">08:00</option>
+                        <option value="08:30">08:30</option>
+                        <option value="09:00">09:00</option>
+                        <option value="09:30">09:30</option>
+                        <option value="10:00">10:00</option>
+                        <option value="10:30">10:30</option>
+                        <option value="11:00">11:00</option>
+                        <option value="11:30">11:30</option>
+                        <option value="12:00">12:00</option>
+                        <option value="12:30">12:30</option>
+                        <option value="13:00">1:00</option>
+                        <option value="13:30">1:30</option>
+                        <option value="14:00">2:00</option>
+                        <option value="14:30">2:30</option>
+                        <option value="15:00">3:00</option>
+                        <option value="15:30">3:30</option>
+                        <option value="16:00">4:00</option>
+                        <option value="16:30">4:30</option>
+                        <option value="17:00">5:00</option>
+                        <option value="17:30">5:30</option>
+                        <option value="18:00">6:00</option>
+                    </select>
                 </div>
-                <div class="calendar-grid">
-                    <div class="day-name">السبت</div>
-                    <div class="day-name">الأحد</div>
-                    <div class="day-name">الإثنين</div>
-                    <div class="day-name">الثلاثاء</div>
-                    <div class="day-name">الأربعاء</div>
-                    <div class="day-name">الخميس</div>
-                    <div class="day-name">الجمعة</div>
-                </div>
-                <div class="calendar-days" id="calendar-days">
-                    <!-- الأيام ستُضاف ديناميكيًا باستخدام JavaScript -->
+                <div class="time-input">
+                    <label for="end-time">وقت الانتهاء</label>
+                    <select id="end-time" name="end-time">
+                        <option value="" disabled selected>اختر وقت الانتهاء</option>
+                        <option value="00:00">00:00</option>
+                        <option value="07:00">07:00</option>
+                        <option value="07:30">07:30</option>
+                        <option value="08:00">08:00</option>
+                        <option value="08:30">08:30</option>
+                        <option value="09:00">09:00</option>
+                        <option value="09:30">09:30</option>
+                        <option value="10:00">10:00</option>
+                        <option value="10:30">10:30</option>
+                        <option value="11:00">11:00</option>
+                        <option value="11:30">11:30</option>
+                        <option value="12:00">12:00</option>
+                        <option value="12:30">12:30</option>
+                        <option value="13:00">1:00</option>
+                        <option value="13:30">1:30</option>
+                        <option value="14:00">2:00</option>
+                        <option value="14:30">2:30</option>
+                        <option value="15:00">3:00</option>
+                        <option value="15:30">3:30</option>
+                        <option value="16:00">4:00</option>
+                        <option value="16:30">4:30</option>
+                        <option value="17:00">5:00</option>
+                        <option value="17:30">5:30</option>
+                        <option value="18:00">6:00</option>
+                    </select>
                 </div>
             </div>
-            <!-- إضافة قسم جدول الأحداث القادمة -->
-            <div class="events-table-section">
-                <div class="head2"> الحجوزات الحاليه</div>
-                <table class="events-table">
-                    <thead>
-                        <tr>
-                            <th>اسم الجهاز</th>
-                            <th>التاريخ</th>
-                            <th>الوقت</th>
-                            <th>المستخدم</th>
-                            <th>المختبر</th>
-                            <th>الحالة</th>
-                            <th>اجرأت</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>ميكروسكوب بصري</td>
-                            <td>14-04-2025</td>
-                            <td>9:00 - 11:00</td>
-                            <td>د. محمد أحمد</td>
-                            <td>معمل الضوء</td>
-                            <td><span class="status confirmed">مؤكد</span></td>
-                            <td>
-                                <button class="action-btn edit">تعديل</button>
-                                <button class="action-btn delete">حذف</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>مقياس الجهد الكهربي</td>
-                            <td>14-04-2025</td>
-                            <td>11:30 - 13:30</td>
-                            <td>أ. سمير على</td>
-                            <td>مختبر الكهرومغناطيسيه</td>
-                            <td><span class="status confirmed">مؤكد</span></td>
-                            <td>
-                                <button class="action-btn edit">تعديل</button>
-                                <button class="action-btn delete">حذف</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>جهاز تحليل الطيف</td>
-                            <td>14-04-2025</td>
-                            <td>14:00 - 16:00</td>
-                            <td>د. ليلي حسن</td>
-                            <td>معمل الذرة</td>
-                            <td><span class="status pending">معلق</span></td>
-                            <td>
-                                <button class="action-btn edit">تعديل</button>
-                                <button class="action-btn delete">حذف</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>جهاز قياس الحراره</td>
-                            <td>16-04-2025</td>
-                            <td>10:00 - 12:00</td>
-                            <td>أ. فاطمه محمود</td>
-                            <td>معمل الحراره</td>
-                            <td><span class="status confirmed">مؤكد</span></td>
-                            <td>
-                                <button class="action-btn edit">تعديل</button>
-                                <button class="action-btn delete">حذف</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="form-group">
+                <label for="purpose">الغرض من الاستخدام</label>
+                <textarea id="purpose" name="purpose"></textarea>
+            </div>
+            <div class="form-actions">
+                <button id="cancel-btn" class="cancel-btn">إلغاء</button>
+                <button id="confirm-btn" class="confirm-btn">تأكيد الحجز</button>
             </div>
         </div>
     </div>
-    
+    <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'933454f5adea44f1',t:'MTc0NTE0ODg1OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="js/logout.js"></script>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>الأجهزة التي تحتاج صيانة</title>
+  <link rel="stylesheet" href="../css/dashboard.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+  <div class="sidebar">
+    <div class="top">
+      <h2><i class="fas fa-atom"></i> مختبرات الفيزياء</h2>
+    </div>
+  
+    <div class="divider"></div>
+  
+    <ul class="menu">
+      <li><a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> لوحة التحكم</a></li>
+      <li><a href="devices.html"><i class="fas fa-microscope"></i> الأجهزة والمعدات</a></li>
+      <li><a href="reservations.html"><i class="fas fa-calendar-alt"></i> الحجوزات</a></li>
+      <li><a href="maintenance.html" class="active"><i class="fas fa-tools"></i> الصيانة</a></li>
+      <li><a href="reports.html"><i class="fas fa-chart-bar"></i> التقارير</a></li>
+      <li><a href="users.html"><i class="fas fa-users"></i> المستخدمين</a></li>
+      <li><a href="settings.html"><i class="fas fa-cog"></i> الإعدادات</a></li>
+    </ul>
+  
+    <div class="logout">
+      <a href="#"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</a>
+    </div>
+  </div>
+
+  <div class="content" style="margin-right: 250px; padding: 20px; text-align: center;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+      <h1 style="color: #3f51b5; margin: 0;">الأجهزة التي تحتاج صيانة</h1>
+      <div style="display: flex; gap: 10px;">
+        <button onclick="exportToExcel()" style="background-color: #3f51b5; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
+          <i class="fas fa-file-export"></i> تصدير إلى Excel
+        </button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-content">
+        <table class="table" id="maintenanceTable" style="margin: 0 auto;">
+          <thead>
+            <tr>
+              <th>اسم الجهاز</th>
+              <th>آخر صيانة</th>
+              <th>ساعات التشغيل</th>
+              <th>الأولوية</th>
+              <th>إجراءات</th>
+            </tr>
+          </thead>
+          <tbody id="maintenanceBody">
+            <!-- سيتم تحميل البيانات هنا -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script>
+    async function fetchMaintenanceDevices() {
+      try {
+        const response = await fetch('https://phy-lab-3-production.up.railway.app/devices/maintenance/needed');
+        if (!response.ok) {
+          throw new Error('فشل في جلب البيانات');
+        }
+        const data = await response.json();
+        
+        const tableBody = document.getElementById('maintenanceBody');
+        tableBody.innerHTML = '';
+        
+        if (!data || !data.maintenance_list || !Array.isArray(data.maintenance_list)) {
+          tableBody.innerHTML = `
+            <tr>
+              <td colspan="5" style="text-align: center;">
+                لا توجد أجهزة تحتاج صيانة
+              </td>
+            </tr>
+          `;
+          return;
+        }
+        
+        const devices = data.maintenance_list;
+        
+        if (devices.length === 0) {
+          tableBody.innerHTML = `
+            <tr>
+              <td colspan="5" style="text-align: center;">
+                لا توجد أجهزة تحتاج صيانة
+              </td>
+            </tr>
+          `;
+          return;
+        }
+        
+        devices.forEach(device => {
+          const row = document.createElement('tr');
+          const priorityClass = device.priority === 'طارئة' ? 'high' : 
+                              device.priority === 'عالية' ? 'medium' : 'low';
+          const priorityColor = device.priority === 'طارئة' ? 'red' : 
+                              device.priority === 'عالية' ? 'orange' : 'yellow';
+          
+          row.innerHTML = `
+            <td>${device.device_name}</td>
+            <td>${device.maintenance_date}</td>
+            <td>${device.current_hours} ساعة</td>
+            <td><span class="label ${priorityClass}" style="background-color: ${priorityColor}">${device.priority}</span></td>
+            <td>
+              <button onclick="scheduleMaintenance(${device.id})" style="background-color: #3f51b5; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer;">
+                جدولة
+              </button>
+            </td>
+          `;
+          tableBody.appendChild(row);
+        });
+        
+      } catch (error) {
+        console.error('Error fetching maintenance devices:', error);
+        const tableBody = document.getElementById('maintenanceBody');
+        if (tableBody) {
+          tableBody.innerHTML = `
+            <tr>
+              <td colspan="5" style="text-align: center; color: red;">
+                حدث خطأ في تحميل الأجهزة: ${error.message}
+              </td>
+            </tr>
+          `;
+        }
+      }
+    }
+
+    function exportToExcel() {
+      try {
+        const table = document.getElementById('maintenanceTable');
+        if (!table) {
+          alert('لم يتم العثور على الجدول');
+          return;
+        }
+        
+        const wb = XLSX.utils.book_new();
+        const ws = XLSX.utils.table_to_sheet(table);
+        XLSX.utils.book_append_sheet(wb, ws, "الأجهزة التي تحتاج صيانة");
+        XLSX.writeFile(wb, "الأجهزة_التي_تحتاج_صيانة.xlsx");
+      } catch (error) {
+        console.error('Error exporting to Excel:', error);
+        alert('حدث خطأ أثناء تصدير البيانات: ' + error.message);
+      }
+    }
+
+    function scheduleMaintenance(deviceId) {
+      // هنا يمكنك إضافة منطق جدولة الصيانة
+      alert(`سيتم جدولة صيانة الجهاز رقم ${deviceId}`);
+    }
+
+    // تحميل البيانات عند تحميل الصفحة
+    window.onload = fetchMaintenanceDevices;
+  </script>
+</body>
+</html> 

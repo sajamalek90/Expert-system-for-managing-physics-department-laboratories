@@ -7,7 +7,7 @@
     <title>تسجيل الدخول - نظام المختبر</title>
     <!-- Font Awesome للأيقونات -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-    <link rel="stylesheet" href="css/login.css"/>
+    <link rel="stylesheet" href="css/login.css" />
 </head>
 
 <body>
@@ -18,23 +18,21 @@
             <form id="loginForm">
                 <div class="form-group">
                     <label for="username" class="form-label">اسم المستخدم</label>
-                    <input type="email" id="username" placeholder="أدخل اسم المستخدم" class="form-control"/>
+                    <input type="email" id="username" placeholder="أدخل اسم المستخدم" class="form-control" />
                     <div id="usernameError" class="error"></div>
                 </div>
                 <div class="form-group">
                     <label for="password" class="form-label">كلمة المرور</label>
-                    <input type="password" id="password" placeholder="أدخل كلمة المرور" class="form-control"/>
+                    <input type="password" id="password" placeholder="أدخل كلمة المرور" class="form-control" />
                     <div id="passwordError" class="error"></div>
                 </div>
                 <div class="remember">
+                    <input type="checkbox" id="remember" class="form-check-input" />
                     <label for="remember" class="form-check-label">تذكرني</label>
-                    <input type="checkbox" id="remember" class="form-check-input"/>
+
                 </div>
                 <button type="submit" class="login-btn btn btn-primary w-100 mb-3">تسجيل الدخول</button>
             </form>
-            <div class="forgot-password">
-                <a href="#">نسيت كلمة المرور؟</a>
-            </div>
         </div>
     </div>
 

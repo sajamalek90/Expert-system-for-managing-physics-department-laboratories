@@ -65,83 +65,6 @@
 
         <!-- المحتوى الرئيسي -->
         <div class="main-content">
-            <!-- شريط التنقل العلوي -->
-            <nav class="navbar navbar-expand-lg navbar-light bg-white mb-4 rounded">
-                <div class="container-fluid">
-                    <button class="navbar-toggler" type="button">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="position-relative">
-                        <input type="text" class="form-control search-bar" placeholder="بحث عن جهاز، حجز، ...">
-                        <i class="fas fa-search search-icon"></i>
-                    </div>
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item dropdown me-3">
-                            <a class="nav-link position-relative" href="#" role="button" data-bs-toggle="dropdown">
-                                <i class="fas fa-bell fa-lg"></i>
-                                <span class="notification-badge">3</span>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-end notification-menu">
-                                <h6 class="dropdown-header">الإشعارات</h6>
-                                <a class="dropdown-item" href="#">
-                                    <div class="d-flex align-items-center">
-                                        <div class="flex-shrink-0">
-                                            <i class="fas fa-exclamation-circle text-warning"></i>
-                                        </div>
-                                        <div class="flex-grow-1 ms-2">
-                                            <p class="mb-0">الميكروسكوب البصري يحتاج إلى صيانة</p>
-                                            <small class="text-muted">منذ ساعتين</small>
-                                        </div>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    <div class="d-flex align-items-center">
-                                        <div class="flex-shrink-0">
-                                            <i class="fas fa-check-circle text-success"></i>
-                                        </div>
-                                        <div class="flex-grow-1 ms-2">
-                                            <p class="mb-0">تم تأكيد حجزك لمولد الإشعاع</p>
-                                            <small class="text-muted">منذ 3 ساعات</small>
-                                        </div>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    <div class="d-flex align-items-center">
-                                        <div class="flex-shrink-0">
-                                            <i class="fas fa-info-circle text-primary"></i>
-                                        </div>
-                                        <div class="flex-grow-1 ms-2">
-                                            <p class="mb-0">تم إضافة جهاز جديد للمختبر</p>
-                                            <small class="text-muted">منذ يوم واحد</small>
-                                        </div>
-                                    </div>
-                                </a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item text-center" href="#">عرض جميع الإشعارات</a>
-                            </div>
-                        </li>
-                        <li class="nav-item dropdown profile-dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                                <img src="https://via.placeholder.com/35" alt="صورة المستخدم" class="profile-img">
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-end">
-                                <h6 class="dropdown-header">د. أحمد محمد</h6>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-user me-2"></i>الملف الشخصي
-                                </a>
-                                <a class="dropdown-item" href="#">
-                                    <i class="fas fa-cog me-2"></i>الإعدادات
-                                </a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item logout-link" href="#">
-                                    <i class="fas fa-sign-out-alt me-2"></i>تسجيل الخروج
-                                </a>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-
             <!-- حاوية التنبيهات -->
             <div id="alerts-container"></div>
 
@@ -149,10 +72,10 @@
             <div id="devices-page" class="page-content">
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <h2>الأجهزة والمعدات</h2>
-                    <div>
-                        <button id="filter-btn" class="btn btn-outline-primary me-2">
+                    <div class="buttons-container">
+                        <!-- <button id="filter-btn" class="btn btn-outline-primary me-2">
                             <i class="fas fa-filter me-1"></i>تصفية
-                        </button>
+                        </button> -->
                         <button id="add-device-btn" class="btn btn-primary">
                             <i class="fas fa-plus me-1"></i>إضافة جهاز
                         </button>
@@ -305,7 +228,9 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
-                    <button type="button" id="edit-device-btn" class="btn btn-primary">تعديل</button>
+                    <button type="button" id="edit-device-btn" class="btn btn-primary" onclick="editDevice(currentDevice.id)">
+                        <i class="fas fa-edit me-1"></i>تعديل
+                    </button>
                 </div>
             </div>
         </div>
@@ -373,6 +298,72 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
                             <button type="submit" class="btn btn-primary">تأكيد الحجز</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة تعديل الجهاز -->
+    <div class="modal fade" id="editDeviceModal" tabindex="-1" aria-labelledby="editDeviceModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editDeviceModalLabel">تعديل بيانات الجهاز</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="edit-device-form">
+                        <input type="hidden" id="edit-device-id">
+                        <div class="mb-3">
+                            <label for="edit-device-name" class="form-label">اسم الجهاز</label>
+                            <input type="text" class="form-control" id="edit-device-name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit-device-category" class="form-label">الفئة</label>
+                            <select class="form-select" id="edit-device-category" required>
+                                <option value="">اختر الفئة</option>
+                                <option value="optical">أجهزة بصرية</option>
+                                <option value="measurement">أجهزة قياس</option>
+                                <option value="thermal">أجهزة حرارية</option>
+                                <option value="radiation">أجهزة إشعاعية</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit-device-lab" class="form-label">المختبر</label>
+                            <select class="form-select" id="edit-device-lab" required>
+                                <option value="">اختر المختبر</option>
+                                <option value="optics">معمل الضوء</option>
+                                <option value="mechanics">معمل الميكانيكا</option>
+                                <option value="electricity">معمل الكهرباء</option>
+                                <option value="radiation">مختبر الإشعاع</option>
+                                <option value="thermal">معمل الحرارة</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit-device-status" class="form-label">الحالة</label>
+                            <select class="form-select" id="edit-device-status" required>
+                                <option value="available">متاح</option>
+                                <option value="unavailable">غير متاح</option>
+                                <option value="maintenance">قيد الصيانة</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit-device-purchase-date" class="form-label">تاريخ الشراء</label>
+                            <input type="date" class="form-control" id="edit-device-purchase-date" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit-device-lifespan" class="form-label">العمر الافتراضي (سنوات)</label>
+                            <input type="number" class="form-control" id="edit-device-lifespan" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="edit-device-notes" class="form-label">ملاحظات</label>
+                            <textarea class="form-control" id="edit-device-notes" rows="3"></textarea>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+                            <button type="submit" class="btn btn-primary">حفظ التغييرات</button>
                         </div>
                     </form>
                 </div>

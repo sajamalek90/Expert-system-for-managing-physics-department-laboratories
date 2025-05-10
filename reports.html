@@ -31,7 +31,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="reservations.html" data-page="schedule">
+                <a class="nav-link" href="reservations.html" data-page="reservations">
                     <i class="fas fa-calendar-alt"></i>
                     <span>الحجوزات</span>
                 </a>
@@ -44,7 +44,7 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link active" href="reports.html" data-page="reports">
-                    <i class="fas fa-file-alt"></i>
+                    <i class="fas fa-chart-bar"></i>
                     <span>التقارير</span>
                 </a>
             </li>
@@ -61,166 +61,75 @@
             </button>
         </div>
     </div>
-    <div class="content" style="margin-right: 250px;">
+    <div class="content">
         <div class="content-section" id="reports">
             <div class="container">
-                <header>
-                    <h1>التقارير</h1>
-                    <div class="export-buttons">
-                        <button onclick="exportExcel()">تصدير Excel</button>
-                        <button onclick="exportPDF()">تصدير PDF</button>
+                <div class="reports-container">
+                    <div class="independent-section">
+                        <div class="card-header">
+                            <h1>التقارير</h1>
+                            <div class="export-buttons">
+                                <button class="btn-export" onclick="exportExcel()">
+                                    <i class="fas fa-file-excel"></i> تصدير Excel
+                                </button>
+                                <button class="btn-export" onclick="exportPDF()">
+                                    <i class="fas fa-file-pdf"></i> تصدير PDF
+                                </button>
+                            </div>
+                        </div>
+                        <nav class="report-nav">
+                            <a href="#" data-report-type="usage" class="report-link">تقارير الاستخدام</a>
+                            <a href="#" data-report-type="maintenance" class="report-link">تقارير الصيانة</a>
+                            <a href="#" data-report-type="inventory" class="report-link">تقارير المخزون</a>
+                        </nav>
                     </div>
-                </header>
-
-                <nav>
-                    <a href="#" data-report-type="usage">تقارير الاستخدام</a>
-                    <a href="#" data-report-type="maintenance">تقارير الصيانة</a>
-                    <a href="#" data-report-type="inventory">تقارير المخزون</a>
-                </nav>
-
-                <div class="charts">
-                    <div class="chart-box">
-                        <h5>توزيع الحجوزات حسب المختبر</h5>
-                        <img src="https://via.placeholder.com/300" alt="رسم بياني للحجوزات حسب المختبر">
+                    <!-- Default Power BI Section (Visible by Default) -->
+                    <div class="independent-section" id="power-bi-section">
+                        <div class="card-body power-bi-report">
+                            <iframe title="Physics" width="1140" height="541.25"
+                                src="https://app.powerbi.com/reportEmbed?reportId=149d6dfa-6414-4673-9826-4b9941269a61&autoAuth=true&ctid=5f593c84-cad4-46c8-b3de-321c3e829a99"
+                                frameborder="0" allowFullScreen="true">
+                            </iframe>
+                        </div>
                     </div>
-                    <div class="chart-box">
-                        <h5>معدل استخدام الأجهزة</h5>
-                        <img src="https://via.placeholder.com/300" alt="رسم بياني لمعدل استخدام الأجهزة">
+                    <!-- Report Content Sections (Hidden by Default) -->
+                    <div class="independent-section" id="report-content-section" style="display: none;">
+                        <div id="usage-report" class="report-content" style="display: none;">
+                            <h3>تقارير الاستخدام</h3>
+                            <div class="card-body power-bi-report">
+                                <iframe title="Usage Report" width="1140" height="541.25"
+                                    src="https://app.powerbi.com/reportEmbed?reportId=placeholder-usage-report-dummy&autoAuth=true&ctid=5f593c84-cad4-46c8-b3de-321c3e829a99"
+                                    frameborder="0" allowFullScreen="true">
+                                </iframe>
+                            </div>
+                        </div>
+                        <div id="maintenance-report" class="report-content" style="display: none;">
+                            <h3>تقارير الصيانة</h3>
+                            <div class="card-body power-bi-report">
+                                <iframe title="Maintenance Report" width="1140" height="541.25"
+                                    src="https://app.powerbi.com/reportEmbed?reportId=placeholder-maintenance-report-dummy&autoAuth=true&ctid=5f593c84-cad4-46c8-b3de-321c3e829a99"
+                                    frameborder="0" allowFullScreen="true">
+                                </iframe>
+                            </div>
+                        </div>
+                        <div id="inventory-report" class="report-content" style="display: none;">
+                            <h3>تقارير المخزون</h3>
+                            <div class="card-body power-bi-report">
+                                <iframe title="Inventory Report" width="1140" height="541.25"
+                                    src="https://app.powerbi.com/reportEmbed?reportId=placeholder-inventory-report-dummy&autoAuth=true&ctid=5f593c84-cad4-46c8-b3de-321c3e829a99"
+                                    frameborder="0" allowFullScreen="true">
+                                </iframe>
+                            </div>
+                        </div>
                     </div>
-                </div>
-
-                <div id="usage-report" class="device-log report" style="display:block;">
-                    <h3>سجل استخدام الأجهزة</h3>
-                    <div class="header-filter">
-                        <label for="device-filter">اختيار الجهاز:</label>
-                        <select id="device-filter" onchange="filterDevices()">
-                            <option value="جميع الأجهزة">جميع الأجهزة</option>
-                            <option value="ميكروسكوب بصري">ميكروسكوب بصري</option>
-                            <option value="محلل طيفي">محلل طيفي</option>
-                            <option value="مولد إشعاع">مولد إشعاع</option>
-                        </select>
-                    </div>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>اسم الجهاز</th>
-                                <th>رقم الجهاز</th>
-                                <th>المستخدم</th>
-                                <th>تاريخ الاستخدام</th>
-                                <th>وقت البدء</th>
-                                <th>وقت الانتهاء</th>
-                                <th>إجمالي الساعات</th>
-                            </tr>
-                        </thead>
-                        <tbody id="device-table-body">
-                            <tr>
-                                <td>ميكروسكوب بصري</td>
-                                <td>001</td>
-                                <td>محمد أحمد</td>
-                                <td>2025-04-10</td>
-                                <td>09:00</td>
-                                <td>11:30</td>
-                                <td>2.5</td>
-                            </tr>
-                            <tr>
-                                <td>محلل طيفي</td>
-                                <td>015</td>
-                                <td>سارة محمد</td>
-                                <td>2025-04-09</td>
-                                <td>13:00</td>
-                                <td>16:00</td>
-                                <td>3.0</td>
-                            </tr>
-                            <tr>
-                                <td>مولد إشعاع</td>
-                                <td>008</td>
-                                <td>أحمد علي</td>
-                                <td>2025-04-08</td>
-                                <td>10:00</td>
-                                <td>12:00</td>
-                                <td>2.0</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div id="maintenance-report" class="device-log report" style="display:none;">
-                    <h3>تقارير الصيانة</h3>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>اسم الجهاز</th>
-                                <th>رقم الجهاز</th>
-                                <th>المستخدم</th>
-                                <th>تاريخ الصيانة</th>
-                                <th>النوع</th>
-                                <th>النتيجة</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>ميكروسكوب بصري</td>
-                                <td>001</td>
-                                <td>محمد أحمد</td>
-                                <td>2025-04-11</td>
-                                <td>صيانة دورية</td>
-                                <td>جيد</td>
-                            </tr>
-                            <tr>
-                                <td>محلل طيفي</td>
-                                <td>015</td>
-                                <td>سارة محمد</td>
-                                <td>2025-04-10</td>
-                                <td>إصلاح</td>
-                                <td>تم الإصلاح</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div id="inventory-report" class="device-log report" style="display:none;">
-                    <h3>تقارير المخزون</h3>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>اسم الجهاز</th>
-                                <th>العدد</th>
-                                <th>الحالة</th>
-                                <th>الموقع</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>ميكروسكوب بصري</td>
-                                <td>5</td>
-                                <td>جيد</td>
-                                <td>المختبر 1</td>
-                            </tr>
-                            <tr>
-                                <td>محلل طيفي</td>
-                                <td>3</td>
-                                <td>صيانة</td>
-                                <td>المختبر 2</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="pagination">
-                    <button onclick="goToPage('prev')">السابق</button>
-                    <span id="current-page">1</span>
-                    <button onclick="goToPage('next')">التالي</button>
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- مكتبات تصدير PDF و Excel -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-    <script src="js/reports.js"></script>
-    <script src="js/logout.js"></script>
+    <!-- <script src="js/reports.js"></script> -->
 </body>
 
 </html>

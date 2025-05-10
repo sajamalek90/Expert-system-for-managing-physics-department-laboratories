@@ -116,49 +116,75 @@
   </div>
 
   <!-- Modal إضافة مستخدم -->
-  <div class="modal fade" id="addUserModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header bg-primary text-white">
-          <h5 class="modal-title"><i class="fas fa-user-plus me-2"></i>إضافة مستخدم جديد</h5>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <form id="addUserForm" novalidate>
-          <div class="modal-body">
-            <div class="mb-3">
-              <label for="nameInput" class="form-label">الاسم الكامل</label>
-              <input type="text" class="form-control" id="nameInput" required>
-              <div class="invalid-feedback">يرجى إدخال الاسم الكامل</div>
-            </div>
-            <div class="mb-3">
-              <label for="emailInput" class="form-label">البريد الإلكتروني</label>
-              <input type="email" class="form-control" id="emailInput" required>
-              <div class="invalid-feedback">يرجى إدخال بريد إلكتروني صحيح</div>
-            </div>
-            <div class="mb-3">
-              <label for="idInput" class="form-label">رقم الهوية</label>
-              <input type="text" class="form-control" id="idInput" required>
-              <div class="invalid-feedback">يرجى إدخال رقم الهوية</div>
-            </div>
-            <div class="mb-3">
-              <label for="typeInput" class="form-label">نوع المستخدم</label>
-              <select class="form-select" id="typeInput" required>
-                <option value="" selected disabled>اختر نوع المستخدم</option>
-                <option value="student">طالب</option>
-                <option value="technician">فني</option>
-                <option value="admin">مشرف</option>
-              </select>
-              <div class="invalid-feedback">يرجى اختيار نوع المستخدم</div>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
-            <button type="submit" class="btn btn-success">حفظ المستخدم</button>
-          </div>
-        </form>
+<div class="modal fade" id="addUserModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title"><i class="fas fa-user-plus me-2"></i>إضافة مستخدم جديد</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
+      <form id="addUserForm" novalidate>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="nameInput" class="form-label">الاسم الكامل</label>
+            <input type="text" class="form-control" id="nameInput" required>
+            <div class="invalid-feedback">يرجى إدخال الاسم الكامل</div>
+          </div>
+
+          <div class="mb-3">
+            <label for="emailInput" class="form-label">البريد الإلكتروني</label>
+            <input type="email" class="form-control" id="emailInput" required>
+            <div class="invalid-feedback">يرجى إدخال بريد إلكتروني صحيح</div>
+          </div>
+
+          <div class="mb-3">
+            <label for="idInput" class="form-label">رقم الهوية</label>
+            <input type="text" class="form-control" id="idInput" required>
+            <div class="invalid-feedback">يرجى إدخال رقم الهوية</div>
+          </div>
+
+          <div class="mb-3">
+            <label for="phoneInput" class="form-label">رقم الهاتف</label>
+            <input type="text" class="form-control" id="phoneInput" required>
+            <div class="invalid-feedback">يرجى إدخال رقم الهاتف</div>
+          </div>
+
+          <div class="mb-3">
+            <label for="passwordInput" class="form-label">كلمة المرور</label>
+            <input type="password" class="form-control" id="passwordInput" required>
+            <div class="invalid-feedback">يرجى إدخال كلمة مرور</div>
+          </div>
+
+          <div class="mb-3">
+            <label for="typeInput" class="form-label">نوع المستخدم</label>
+            <select class="form-select" id="typeInput" required>
+              <option value="" selected disabled>اختر نوع المستخدم</option>
+              <option value="طالب">طالب</option>
+              <option value="فني">فني</option>
+              <option value="دكتور">دكتور</option>
+            </select>
+            <div class="invalid-feedback">يرجى اختيار نوع المستخدم</div>
+          </div>
+
+          <div class="mb-3">
+            <label for="statusInput" class="form-label">حالة المستخدم</label>
+            <select class="form-select" id="statusInput" required>
+              <option value="active" selected>نشط</option>
+              <option value="inactive">غير نشط</option>
+            </select>
+            <div class="invalid-feedback">يرجى تحديد حالة المستخدم</div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+          <button type="submit" class="btn btn-success">حفظ المستخدم</button>
+        </div>
+      </form>
     </div>
   </div>
+</div>
+
 
   <!-- Modal تعديل مستخدم -->
   <div class="modal fade" id="editUserModal" tabindex="-1">
@@ -189,9 +215,9 @@
             <div class="mb-3">
               <label for="editType" class="form-label">نوع المستخدم</label>
               <select class="form-select" id="editType" required>
-                <option value="student">طالب</option>
-                <option value="technician">فني</option>
-                <option value="admin">مشرف</option>
+                <option value="طالب">طالب</option>
+                <option value="فني">فني</option>
+                <option value="دكتور">دكتور</option>
               </select>
               <div class="invalid-feedback">يرجى اختيار نوع المستخدم</div>
             </div>
