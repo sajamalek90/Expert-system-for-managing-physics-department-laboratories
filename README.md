@@ -1,89 +1,64 @@
-# نظام إدارة مختبرات قسم الفيزياء
+# نظام إدارة المختبرات | Laboratory Management System
 
-# Physics Department Laboratory Management System
+## نظرة عامة | Overview
 
-A comprehensive web-based laboratory management system designed specifically for the Physics Department. This system facilitates the management of laboratory equipment, reservations, maintenance, and user access.
+نظام إدارة المختبرات هو تطبيق ويب متكامل لإدارة المختبرات والمعدات العلمية. يوفر النظام واجهة سهلة الاستخدام لإدارة الأجهزة، الصيانة، الحجوزات، والمستخدمين.
+
+The Laboratory Management System is a comprehensive web application for managing laboratories and scientific equipment. The system provides an easy-to-use interface for managing devices, maintenance, reservations, and users.
 
 ## المميزات الرئيسية | Key Features
 
-- 📱 واجهة مستخدم سهلة الاستخدام | User-friendly interface
-- 🔍 إدارة الأجهزة والمعدات | Equipment management
-- 📅 نظام حجز الأجهزة | Equipment reservation system
-- 🔧 تتبع الصيانة | Maintenance tracking
-- 📊 تقارير وإحصائيات | Reports and statistics
+- 🔐 نظام تسجيل دخول آمن | Secure login system
+- 📱 إدارة الأجهزة والمعدات | Device and equipment management
+- 🔧 نظام الصيانة | Maintenance system
+- 📅 نظام الحجوزات | Reservation system
 - 👥 إدارة المستخدمين | User management
-- 🔔 نظام إشعارات | Notification system
-
-## المتطلبات | Prerequisites
-
-- متصفح حديث | Modern web browser
-- اتصال بالإنترنت | Internet connection
-- حساب مستخدم مصرح | Authorized user account
+- 📊 التقارير والإحصائيات | Reports and statistics
+- 🔍 تتبع قطع الغيار | Spare parts tracking
+- 🧪 إدارة التجارب | Experiment management
 
 ## هيكل المشروع | Project Structure
 
 ```
-vanilla/
-├── css/              # ملفات التنسيق | Style files
-├── js/               # ملفات الجافا سكريبت | JavaScript files
-├── devices.html      # صفحة إدارة الأجهزة | Devices management page
-├── dashboard.html    # لوحة التحكم | Dashboard
-├── maintenance.html  # صفحة الصيانة | Maintenance page
-├── reports.html      # صفحة التقارير | Reports page
-├── reservations.html # صفحة الحجوزات | Reservations page
-├── users.html        # صفحة المستخدمين | Users page
-├── login.html        # صفحة تسجيل الدخول | Login page
-├── devices.json      # بيانات الأجهزة | Devices data
-└── users.json        # بيانات المستخدمين | Users data
+├── css/                  # ملفات التنسيق | Styling files
+├── js/                   # ملفات الجافاسكريبت | JavaScript files
+├── .vscode/             # إعدادات VS Code | VS Code settings
+├── login.html           # صفحة تسجيل الدخول | Login page
+├── dashboard.html       # لوحة التحكم | Dashboard
+├── devices.html         # إدارة الأجهزة | Device management
+├── devices.json         # بيانات الأجهزة | Device data
+├── maintenance.html     # إدارة الصيانة | Maintenance management
+├── maintenance-devices.html  # أجهزة الصيانة | Maintenance devices
+├── reservations.html    # إدارة الحجوزات | Reservation management
+├── users.html           # إدارة المستخدمين | User management
+├── spareparts.html      # إدارة قطع الغيار | Spare parts management
+├── experiments.html     # إدارة التجارب | Experiment management
+├── reports.html         # التقارير | Reports
+└── labs.html           # إدارة المختبرات | Laboratory management
 ```
 
-## التقنيات المستخدمة | Technologies Used
+## متطلبات النظام | System Requirements
 
-- HTML5
-- CSS3
-- JavaScript
-- Bootstrap 5
-- Font Awesome
-- JSON for data storage
+- متصفح ويب حديث | Modern web browser
+- اتصال بالإنترنت | Internet connection
+- دعم JavaScript | JavaScript support
 
-## البدء | Getting Started
+## التثبيت والإعداد | Installation and Setup
 
-1. قم بفتح ملف `login.html` في المتصفح | Open `login.html` in your browser
-2. سجل الدخول باستخدام بيانات حسابك | Log in with your credentials
-3. ابدأ باستخدام النظام | Start using the system
-
-## الوظائف الرئيسية | Main Functions
-
-### إدارة الأجهزة | Equipment Management
-
-- إضافة وتعديل وحذف الأجهزة | Add, edit, and delete equipment
-- تتبع حالة الأجهزة | Track equipment status
-- تصنيف الأجهزة | Categorize equipment
-
-### نظام الحجوزات | Reservation System
-
-- حجز الأجهزة | Book equipment
-- جدولة الاستخدام | Schedule usage
-- إدارة المواعيد | Manage appointments
-
-### الصيانة | Maintenance
-
-- تسجيل طلبات الصيانة | Log maintenance requests
-- متابعة حالة الصيانة | Track maintenance status
-- سجل الصيانة | Maintenance history
-
-### التقارير | Reports
-
-- تقارير استخدام الأجهزة | Equipment usage reports
-- تقارير الصيانة | Maintenance reports
-- إحصائيات الحجوزات | Reservation statistics
+1. قم بتنزيل أو استنساخ المشروع | Download or clone the project
+2. افتح الملف `login.html` في متصفح الويب | Open `login.html` in a web browser
+3. قم بتسجيل الدخول باستخدام بيانات الاعتماد الخاصة بك | Log in with your credentials
 
 ## المساهمة | Contributing
 
-نرحب بمساهماتكم في تطوير النظام | We welcome contributions to improve the system.
+نرحب بمساهماتكم في تطوير هذا المشروع. يرجى اتباع الخطوات التالية:
+We welcome contributions to this project. Please follow these steps:
 
-1. قم بعمل fork للمشروع | Fork the project
-2. قم بإنشاء فرع للميزة | Create your feature branch
-3. قم بعمل commit للتغييرات | Commit your changes
-4. قم بعمل push للفرع | Push to the branch
-5. قم بفتح طلب pull | Open a pull request
+1. قم بعمل Fork للمشروع | Fork the project
+2. قم بإنشاء فرع جديد للميزة | Create a new feature branch
+3. قم بإجراء التغييرات المطلوبة | Make your changes
+4. قم بإرسال طلب Pull Request | Submit a Pull Request
+
+## الدعم | Support
+
+للمساعدة والدعم الفني، يرجى التواصل مع فريق الدعم | For help and technical support, please contact the support team
