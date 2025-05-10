@@ -40,14 +40,14 @@ body {
 .icon {
     background-color: #3f51b5;
     color: white;
-    width: 70px;
-    height: 70px;
+    width: 90px;
+    height: 90px;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
     margin: 0 auto;
-    font-size: 28px;
+    font-size: 35px;
 }
 
 h2 {
@@ -102,16 +102,7 @@ input[type="password"] {
     background-color: #303f9f;
 }
 
-.forgot-password {
-    margin-top: 10px;
-    font-size: 14px;
-    text-align: center;
-}
 
-.forgot-password a {
-    color: #3f51b5;
-    text-decoration: none;
-}
 
 .error {
     color: red;

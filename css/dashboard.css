@@ -79,12 +79,13 @@ body {
   font-size: 16px;
 }
 
-.logout-btn {
+.logout {
+
   width: 90%;
   padding-bottom: 20px;
 }
 
-.logout-btn a {
+.logout a {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -99,11 +100,11 @@ body {
   transition: background 0.3s ease;
 }
 
-.logout-btn a:hover {
+.logout a:hover {
   background-color: rgba(255, 255, 255, 0.1);
 }
 
-.logout-btn a i {
+.logout a i {
   margin-left: 8px;
 }
 
