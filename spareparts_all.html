@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>كل قطع الغيار</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.rtl.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="./css/spareparts_all.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.min.css">
+</head>
+<body >
+      <div class="sidebar" style="width: 250px;">
+            <div class="d-flex justify-content-center align-items-center py-4">
+                <i class="fas fa-atom fa-2x me-2"></i>
+                <h4 class="mb-0">مختبرات الفيزياء</h4>
+            </div>
+            <hr class="bg-light">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" href="dashboard.html" data-page="dashboard">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>لوحة التحكم</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="devices.html" data-page="devices">
+                        <i class="fas fa-microscope"></i>
+                        <span>الأجهزة والمعدات</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="labs.html" data-page="labs">
+                        <i class="fas fa-flask"></i>
+                        <span>المعامل</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="experiments.html" data-page="experiments">
+                        <i class="fas fa-vial"></i>
+                        <span>التجارب</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="reservations.html" data-page="reservations">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>الحجوزات</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="spareparts.html" data-page="spareparts">
+                        <i class="fas fa-cogs"></i>
+                        <span>قطع الغيار</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="maintenance.html" data-page="maintenance">
+                        <i class="fas fa-tools"></i>
+                        <span>الصيانة</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="reports.html" data-page="reports">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>التقارير</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="users.html" data-page="users">
+                        <i class="fas fa-users"></i>
+                        <span>المستخدمين</span>
+                    </a>
+                </li>
+            </ul>
+            <div class="mt-auto p-3">
+                <button id="logout-btn" class="btn btn-outline-light w-100">
+                    <i class="fas fa-sign-out-alt me-2"></i>تسجيل الخروج
+                </button>
+            </div>
+        </div>
+    <div class="mov" >
+        <table >
+            <thead>
+                <tr>
+                    <th>المعرف</th>
+                    <th>اسم القطعة</th>
+                    <th>الوصف</th>
+                    <th>الكمية</th>
+                    <th>الموقع</th>
+                    <th>النوع</th>
+                    <th>الوحدة</th>
+                    <th>التكلفة</th>
+                    <th>الجهاز المرتبط</th>
+                    <th>إجراءات</th>
+                </tr>
+            </thead>
+            <tbody id="all-spareparts-body"></tbody>
+        </table>
+    </div>
+   
+    <!-- نافذة تعديل قطع غيار -->
+    <div class="modal fade" id="editSparePartModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">تعديل قطعة غيار</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editSparePartForm">
+                        <input type="hidden" name="id">
+                        <div class="mb-3">
+                            <label class="form-label">اسم القطعة</label>
+                            <input type="text" class="form-control" name="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">الوصف</label>
+                            <input type="text" class="form-control" name="description">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">النوع</label>
+                            <input type="text" class="form-control" name="type" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">الكمية</label>
+                            <input type="number" class="form-control" name="quantity" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">الوحدة</label>
+                            <input type="text" class="form-control" name="unit" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">التكلفة</label>
+                            <input type="number" class="form-control" name="cost" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">الموقع</label>
+                            <input type="text" class="form-control" name="location" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">اسم الجهاز</label>
+                            <input type="text" class="form-control" name="deviceName" required>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+                    <button type="button" class="btn btn-primary" id="updateSparePart">حفظ التعديلات</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const tbody = document.getElementById("all-spareparts-body");
+
+    fetch("http://labmangmentsystemapi.runasp.net/api/SpareParts")
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            tbody.innerHTML = "";
+            data.forEach(part => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${part.id}</td>
+                    <td>${part.name}</td>
+                    <td>${part.description ?? '-'}</td>
+                    <td>${part.quantity}</td>
+                    <td>${part.location ?? '-'}</td>
+                    <td>${part.type}</td>
+                    <td>${part.unit}</td>
+                    <td>${part.cost}</td>
+                    <td>${part.deviceName ?? '-'}</td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn btn-sm btn-custom-edit" onclick="editPart(${JSON.stringify(part).replace(/"/g, '&quot;')})">تعديل</button>
+                            <button class="btn btn-sm btn-danger" onclick="confirmDelete(${part.id})">
+                                <i class="fas fa-trash"></i> حذف
+                            </button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        })
+        .catch(error => {
+            console.error("❌ خطأ أثناء جلب بيانات قطع الغيار:", error);
+            tbody.innerHTML = `<tr><td colspan="10" class="text-danger text-center">فشل في تحميل البيانات من الخادم.</td></tr>`;
+        });
+});
+//Edit
+// دالة تحميل بيانات القطعة في نموذج التعديل
+function editPart(part) {
+    const form = document.getElementById("editSparePartForm");
+    form.querySelector('[name="id"]').value = part.id;
+    form.querySelector('[name="name"]').value = part.name;
+    form.querySelector('[name="description"]').value = part.description || '';
+    form.querySelector('[name="type"]').value = part.type;
+    form.querySelector('[name="quantity"]').value = part.quantity;
+    form.querySelector('[name="unit"]').value = part.unit;
+    form.querySelector('[name="cost"]').value = part.cost;
+    form.querySelector('[name="location"]').value = part.location || '';
+    form.querySelector('[name="deviceName"]').value = part.deviceName || '';
+    
+    const editModal = new bootstrap.Modal(document.getElementById('editSparePartModal'));
+    editModal.show();
+}
+
+// معالجة حدث تحديث قطعة الغيار
+document.getElementById('updateSparePart').addEventListener('click', function() {
+    const form = document.getElementById("editSparePartForm");
+    const formData = new FormData(form);
+    
+    const updatedPart = {
+        id: parseInt(formData.get("id")),
+        name: formData.get("name"),
+        description: formData.get("description"),
+        type: formData.get("type"),
+        quantity: parseInt(formData.get("quantity")),
+        unit: formData.get("unit"),
+        cost: parseFloat(formData.get("cost")),
+        location: formData.get("location"),
+        deviceName: formData.get("deviceName")
+    };
+
+    // تحديث البيانات على الخادم
+    fetch(`http://labmangmentsystemapi.runasp.net/api/SpareParts/${updatedPart.id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updatedPart)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('فشل في تحديث البيانات');
+        }
+        // إعادة تحميل البيانات
+        location.reload();
+        
+        // إغلاق المودال وعرض رسالة نجاح
+        const modal = bootstrap.Modal.getInstance(document.getElementById('editSparePartModal'));
+        modal.hide();
+        alert('تم تحديث قطعة الغيار بنجاح');
+    })
+    .catch(error => {
+        console.error('خطأ:', error);
+        alert('حدث خطأ أثناء تحديث قطعة الغيار');
+    });
+});
+//End Edit
+
+//Delete
+// دالة تأكيد الحذف
+function confirmDelete(id) {
+    Swal.fire({
+        title: 'هل أنت متأكد؟',
+        text: "لن تتمكن من التراجع عن هذا الإجراء!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'نعم، احذف!',
+        cancelButtonText: 'إلغاء'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            deletePart(id);
+        }
+    });
+}
+
+// دالة حذف قطعة الغيار
+function deletePart(id) {
+    fetch(`http://labmangmentsystemapi.runasp.net/api/SpareParts/${id}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('فشل في حذف القطعة');
+        }
+        Swal.fire({
+            title: 'تم الحذف!',
+            text: 'تم حذف قطعة الغيار بنجاح.',
+            icon: 'success',
+            confirmButtonText: 'حسناً'
+        }).then(() => {
+            location.reload();
+        });
+    })
+    .catch(error => {
+        console.error('خطأ:', error);
+        Swal.fire({
+            title: 'خطأ!',
+            text: 'حدث خطأ أثناء حذف قطعة الغيار.',
+            icon: 'error',
+            confirmButtonText: 'حسناً'
+        });
+    });
+}
+//End Delete
+</script>
+    <script src="js/logout.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.all.min.js"></script>
+</body>
+</html>

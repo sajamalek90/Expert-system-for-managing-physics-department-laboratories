@@ -5,12 +5,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>لوحة التحكم - نظام المختبر</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.rtl.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <link rel="stylesheet" href="css/reports.css" />
 </head>
 
 <body>
+    <!-- القائمة الجانبية -->
     <div class="sidebar">
         <div class="d-flex justify-content-center align-items-center py-4">
             <i class="fas fa-atom fa-2x me-2"></i>
@@ -18,42 +19,22 @@
         </div>
         <hr class="bg-light">
         <ul class="nav flex-column">
-            <li class="nav-item">
-                <a class="nav-link" href="dashboard.html" data-page="dashboard">
-                    <i class="fas fa-tachometer-alt"></i>
-                    <span>لوحة التحكم</span>
-                </a>
+            <li class="nav-item"><a class="nav-link" href="dashboard.html"><i class="fas fa-tachometer-alt"></i> لوحة
+                    التحكم</a></li>
+            <li class="nav-item"><a class="nav-link" href="devices.html"><i class="fas fa-microscope"></i> الأجهزة
+                    والمعدات</a></li>
+            <li class="nav-item"><a class="nav-link" href="labs.html"><i class="fas fa-flask"></i> المعامل</a></li>
+            <li class="nav-item"><a class="nav-link" href="experiments.html"><i class="fas fa-vial"></i> التجارب</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="devices.html" data-page="devices">
-                    <i class="fas fa-microscope"></i>
-                    <span>الأجهزة والمعدات</span>
-                </a>
+            <li class="nav-item"><a class="nav-link" href="reservations.html"><i class="fas fa-calendar-alt"></i>
+                    الحجوزات</a></li>
+            <li class="nav-item"><a class="nav-link" href="spareparts.html"><i class="fas fa-cogs"></i> قطع الغيار</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="reservations.html" data-page="reservations">
-                    <i class="fas fa-calendar-alt"></i>
-                    <span>الحجوزات</span>
-                </a>
+            <li class="nav-item"><a class="nav-link" href="maintenance.html"><i class="fas fa-tools"></i> الصيانة</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="maintenance.html" data-page="maintenance">
-                    <i class="fas fa-tools"></i>
-                    <span>الصيانة</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link active" href="reports.html" data-page="reports">
-                    <i class="fas fa-chart-bar"></i>
-                    <span>التقارير</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="users.html" data-page="users">
-                    <i class="fas fa-users"></i>
-                    <span>المستخدمين</span>
-                </a>
-            </li>
+            <li class="nav-item"><a class="nav-link active" href="reports.html"><i class="fas fa-chart-bar"></i>
+                    التقارير</a></li>
+            <li class="nav-item"><a class="nav-link" href="users.html"><i class="fas fa-users"></i> المستخدمين</a></li>
         </ul>
         <div class="mt-auto p-3">
             <button id="logout-btn" class="btn btn-outline-light w-100">
@@ -61,75 +42,63 @@
             </button>
         </div>
     </div>
-    <div class="content">
-        <div class="content-section" id="reports">
-            <div class="container">
-                <div class="reports-container">
-                    <div class="independent-section">
-                        <div class="card-header">
-                            <h1>التقارير</h1>
-                            <div class="export-buttons">
-                                <button class="btn-export" onclick="exportExcel()">
-                                    <i class="fas fa-file-excel"></i> تصدير Excel
-                                </button>
-                                <button class="btn-export" onclick="exportPDF()">
-                                    <i class="fas fa-file-pdf"></i> تصدير PDF
-                                </button>
-                            </div>
-                        </div>
-                        <nav class="report-nav">
-                            <a href="#" data-report-type="usage" class="report-link">تقارير الاستخدام</a>
-                            <a href="#" data-report-type="maintenance" class="report-link">تقارير الصيانة</a>
-                            <a href="#" data-report-type="inventory" class="report-link">تقارير المخزون</a>
-                        </nav>
-                    </div>
-                    <!-- Default Power BI Section (Visible by Default) -->
-                    <div class="independent-section" id="power-bi-section">
-                        <div class="card-body power-bi-report">
-                            <iframe title="Physics" width="1140" height="541.25"
+
+    <div class="main-content">
+        <div id="alerts-container"></div>
+
+        <div id="reports-page" class="page-content">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2>التقارير</h2>
+                <div class="export-buttons">
+                    <button class="btn-export" onclick="exportExcel()"><i class="fas fa-file-excel"></i> تصدير
+                        Excel</button>
+                    <button class="btn-export" onclick="exportPDF()"><i class="fas fa-file-pdf"></i> تصدير PDF</button>
+                </div>
+            </div>
+
+            <nav class="report-nav mb-3">
+                <a href="#" data-report-type="devices" class="report-link active">تقارير الأجهزة والمستخدمين</a>
+                <a href="#" data-report-type="lab" class="report-link">تقارير المعامل</a>
+                <a href="#" data-report-type="experiments" class="report-link">تقارير التجارب</a>
+            </nav>
+
+            <div class="card">
+                <div class="card-body">
+                    <div class="independent-section" id="report-content-section">
+                        <!-- تقرير الأجهزة -->
+                        <div id="devices-report" class="report-content" style="display: block;">
+                            <div class="text-center" id="devices-report-loading"></div>
+                            <iframe title="Device" width="1140" height="541.25"
                                 src="https://app.powerbi.com/reportEmbed?reportId=149d6dfa-6414-4673-9826-4b9941269a61&autoAuth=true&ctid=5f593c84-cad4-46c8-b3de-321c3e829a99"
-                                frameborder="0" allowFullScreen="true">
-                            </iframe>
+                                frameborder="0" allowFullScreen="true"></iframe>
                         </div>
-                    </div>
-                    <!-- Report Content Sections (Hidden by Default) -->
-                    <div class="independent-section" id="report-content-section" style="display: none;">
-                        <div id="usage-report" class="report-content" style="display: none;">
-                            <h3>تقارير الاستخدام</h3>
-                            <div class="card-body power-bi-report">
-                                <iframe title="Usage Report" width="1140" height="541.25"
-                                    src="https://app.powerbi.com/reportEmbed?reportId=placeholder-usage-report-dummy&autoAuth=true&ctid=5f593c84-cad4-46c8-b3de-321c3e829a99"
-                                    frameborder="0" allowFullScreen="true">
-                                </iframe>
-                            </div>
+
+                        <!-- تقرير المعامل -->
+                        <div id="lab-report" class="report-content" style="display: none;">
+                            <div class="text-center" id="lab-report-loading"></div>
+                            <iframe title="Labs" width="1140" height="541.25"
+                                src="https://app.powerbi.com/reportEmbed?reportId=b2761cfb-2e40-4d53-bbd6-73723e31d47e&autoAuth=true&ctid=5f593c84-cad4-46c8-b3de-321c3e829a99"
+                                frameborder="0" allowFullScreen="true"></iframe>
                         </div>
-                        <div id="maintenance-report" class="report-content" style="display: none;">
-                            <h3>تقارير الصيانة</h3>
-                            <div class="card-body power-bi-report">
-                                <iframe title="Maintenance Report" width="1140" height="541.25"
-                                    src="https://app.powerbi.com/reportEmbed?reportId=placeholder-maintenance-report-dummy&autoAuth=true&ctid=5f593c84-cad4-46c8-b3de-321c3e829a99"
-                                    frameborder="0" allowFullScreen="true">
-                                </iframe>
-                            </div>
-                        </div>
-                        <div id="inventory-report" class="report-content" style="display: none;">
-                            <h3>تقارير المخزون</h3>
-                            <div class="card-body power-bi-report">
-                                <iframe title="Inventory Report" width="1140" height="541.25"
-                                    src="https://app.powerbi.com/reportEmbed?reportId=placeholder-inventory-report-dummy&autoAuth=true&ctid=5f593c84-cad4-46c8-b3de-321c3e829a99"
-                                    frameborder="0" allowFullScreen="true">
-                                </iframe>
-                            </div>
+
+                        <!-- تقرير التجارب -->
+                        <div id="experiments-report" class="report-content" style="display: none;">
+                            <div class="text-center" id="experiments-report-loading"></div>
+                            <iframe title="Experiments Report" width="1140" height="541.25"
+                                src="https://app.powerbi.com/reportEmbed?reportId=54112bba-69c6-4264-ab8c-49c04ef963b4&autoAuth=true&ctid=5f593c84-cad4-46c8-b3de-321c3e829a99"
+                                frameborder="0" allowFullScreen="true"></iframe>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- المكتبات -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-    <!-- <script src="js/reports.js"></script> -->
+    <script src="js/reports.js"></script>
 </body>
 
 </html>

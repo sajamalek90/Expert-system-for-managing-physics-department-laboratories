@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>نظام إدارة مختبرات قسم الفيزياء</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.rtl.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="./css/labs.css">
 </head>
+
 <body>
     <div id="dashboard-screen">
         <!-- القائمة الجانبية -->
@@ -88,16 +90,31 @@
             <div id="labs-page" class="page-content">
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <h2>إدارة المعامل</h2>
-                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addLabModal">
-                        <i class="fas fa-plus me-1"></i>إضافة معمل جديد
-                    </button>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addLabModal">
+                            <i class="fas fa-plus me-1"></i>إضافة معمل جديد
+                        </button>
+                        <!-- أزرار التصدير -->
+                        <button class="btn btn-success btn-export" onclick="exportExcel()">
+                            <i class="fas fa-file-excel me-1"></i>تصدير Excel
+                        </button>
+                        <button class="btn btn-danger btn-export" onclick="exportPDF()">
+                            <i class="fas fa-file-pdf me-1"></i>تصدير PDF
+                        </button>
+                    </div>
                 </div>
 
                 <div class="card">
                     <div class="card-body">
+                        <!-- مؤشر التحميل -->
+                        <div id="loading-spinner" class="text-center d-none">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">جارٍ التحميل...</span>
+                            </div>
+                        </div>
                         <div class="table-responsive">
                             <table class="table table-hover">
-                                <thead style="background-color: var(--dark-color);">
+                                <thead>
                                     <tr>
                                         <th>اسم المعمل</th>
                                         <th>النوع</th>
@@ -109,19 +126,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>معمل الضوء</td>
-                                        <td>بصريات</td>
-                                        <td>المبنى أ - الطابق الثالث</td>
-                                        <td>20 طالب</td>
-                                        <td><span class="badge bg-success">نشط</span></td>
-                                        <td>150 ساعة</td>
-                                        <td>
-                                            <button class="btn btn-sm btn-outline-primary me-1">تعديل</button>
-                                            <button class="btn btn-sm btn-outline-danger">حذف</button>
-                                        </td>
-                                    </tr>
-                                    <!-- صفوف أخرى -->
+                                    <!-- المعامل ستُضاف ديناميكيًا بواسطة JavaScript -->
                                 </tbody>
                             </table>
                         </div>
@@ -131,42 +136,62 @@
         </div>
     </div>
 
-    <!-- نافذة إضافة معمل جديد -->
-    <div class="modal fade" id="addLabModal" tabindex="-1" aria-hidden="true">
+    <!-- نافذة إضافة/تعديل معمل -->
+    <div class="modal fade" id="addLabModal" tabindex="-1" aria-labelledby="addLabModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">إضافة معمل جديد</h5>
+                    <h5 class="modal-title" id="addLabModalLabel">إضافة معمل جديد</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="إغلاق"></button>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form id="labForm">
                         <div class="mb-3">
-                            <label class="form-label">اسم المعمل</label>
-                            <input type="text" class="form-control" required>
+                            <label for="labName" class="form-label">اسم المعمل</label>
+                            <input type="text" class="form-control" id="labName" name="name" placeholder="اسم المعمل">
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">النوع</label>
-                            <input type="text" class="form-control" required>
+                            <label for="labType" class="form-label">النوع</label>
+                            <input type="text" class="form-control" id="labType" name="type" placeholder="النوع">
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">الموقع</label>
-                            <input type="text" class="form-control" required>
+                            <label for="labLocation" class="form-label">الموقع</label>
+                            <input type="text" class="form-control" id="labLocation" name="location"
+                                placeholder="الموقع">
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">السعة</label>
-                            <input type="number" class="form-control" required>
+                            <label for="labCapacity" class="form-label">السعة</label>
+                            <input type="number" class="form-control" id="labCapacity" name="capacity"
+                                placeholder="السعة" min="1">
+                        </div>
+                        <div class="mb-3">
+                            <label for="labStatus" class="form-label">الحالة</label>
+                            <select class="form-select" id="labStatus" name="status">
+                                <option value="Active">نشط</option>
+                                <option value="Inactive">غير نشط</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="labOperatingHours" class="form-label">ساعات التشغيل</label>
+                            <input type="number" class="form-control" id="labOperatingHours" name="operatingHours"
+                                placeholder="ساعات التشغيل" min="0">
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
-                    <button type="button" class="btn btn-primary">حفظ</button>
+                    <button type="button" class="btn btn-primary" id="saveLabBtn" disabled>
+                        <span class="spinner-border spinner-border-sm d-none" id="saveSpinner"></span>
+                        حفظ
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <script src="js/logout.js"></script>
+    <script src="js/labs.js"></script>
 </body>
+
 </html>

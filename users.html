@@ -12,57 +12,75 @@
 
 <body>
   
-  <div class="sidebar">
-    <div class="d-flex justify-content-center align-items-center py-4">
+ <!-- القائمة الجانبية -->
+ <div class="sidebar" style="width: 250px;">
+  <div class="d-flex justify-content-center align-items-center py-4">
       <i class="fas fa-atom fa-2x me-2"></i>
       <h4 class="mb-0">مختبرات الفيزياء</h4>
-    </div>
-    <hr class="bg-light">
-    <ul class="nav flex-column">
-      <li class="nav-item">
-        <a class="nav-link" href="dashboard.html" data-page="dashboard">
-          <i class="fas fa-tachometer-alt"></i>
-          <span>لوحة التحكم</span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="devices.html" data-page="devices">
-          <i class="fas fa-microscope"></i>
-          <span>الأجهزة والمعدات</span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="reservations.html" data-page="reservations">
-          <i class="fas fa-calendar-alt"></i>
-          <span>الحجوزات</span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="maintenance.html" data-page="maintenance">
-          <i class="fas fa-tools"></i>
-          <span>الصيانة</span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="reports.html" data-page="reports">
-          <i class="fas fa-chart-bar"></i>
-          <span>التقارير</span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link active" href="users.html" data-page="users">
-          <i class="fas fa-users"></i>
-          <span>المستخدمين</span>
-        </a>
-      </li>
-    </ul>
-    <div class="mt-auto p-3">
-      <button id="logout-btn" class="btn btn-outline-light w-100">
-        <i class="fas fa-sign-out-alt me-2"></i>تسجيل الخروج
-      </button>
-    </div>
   </div>
-
+  <hr class="bg-light">
+  <ul class="nav flex-column">
+      <li class="nav-item">
+          <a class="nav-link" href="dashboard.html" data-page="dashboard">
+              <i class="fas fa-tachometer-alt"></i>
+              <span>لوحة التحكم</span>
+          </a>
+      </li>
+      <li class="nav-item">
+          <a class="nav-link" href="devices.html" data-page="devices">
+              <i class="fas fa-microscope"></i>
+              <span>الأجهزة والمعدات</span>
+          </a>
+      </li>
+      <li class="nav-item">
+          <a class="nav-link" href="labs.html" data-page="labs">
+              <i class="fas fa-flask"></i>
+              <span>المعامل</span>
+          </a>
+      </li>
+      <li class="nav-item">
+          <a class="nav-link" href="experiments.html" data-page="experiments">
+              <i class="fas fa-vial"></i>
+              <span>التجارب</span>
+          </a>
+      </li>
+      <li class="nav-item">
+          <a class="nav-link" href="reservations.html" data-page="reservations">
+              <i class="fas fa-calendar-alt"></i>
+              <span>الحجوزات</span>
+          </a>
+      </li>
+      <li class="nav-item">
+          <a class="nav-link active" href="spareparts.html" data-page="spareparts">
+              <i class="fas fa-cogs"></i>
+              <span>قطع الغيار</span>
+          </a>
+      </li>
+      <li class="nav-item">
+          <a class="nav-link" href="maintenance.html" data-page="maintenance">
+              <i class="fas fa-tools"></i>
+              <span>الصيانة</span>
+          </a>
+      </li>
+      <li class="nav-item">
+          <a class="nav-link" href="reports.html" data-page="reports">
+              <i class="fas fa-chart-bar"></i>
+              <span>التقارير</span>
+          </a>
+      </li>
+      <li class="nav-item">
+          <a class="nav-link" href="users.html" data-page="users">
+              <i class="fas fa-users"></i>
+              <span>المستخدمين</span>
+          </a>
+      </li>
+  </ul>
+  <div class="mt-auto p-3">
+      <button id="logout-btn" class="btn btn-outline-light w-100">
+          <i class="fas fa-sign-out-alt me-2"></i>تسجيل الخروج
+      </button>
+  </div>
+</div>
   
   <div class="main-content">
     <div class="container-fluid">
@@ -75,9 +93,11 @@
 
       <ul class="nav nav-tabs mb-4" id="userTabs">
         <li class="nav-item"><a class="nav-link active" href="#" data-role="all">جميع المستخدمين</a></li>
-        <li class="nav-item"><a class="nav-link" href="#" data-role="admin">المشرفين</a></li>
-        <li class="nav-item"><a class="nav-link" href="#" data-role="technician">الفنيين</a></li>
-        <li class="nav-item"><a class="nav-link" href="#" data-role="student">الطلاب</a></li>
+        <li class="nav-item"><a class="nav-link" href="#" data-role="مشرف">المشرفين</a></li>
+        <li class="nav-item"><a class="nav-link" href="#" data-role="دكتور">الدكاترة</a></li>
+        <li class="nav-item"><a class="nav-link" href="#" data-role="باحث">الباحثين</a></li>
+        <li class="nav-item"><a class="nav-link" href="#" data-role="فنى">الفنيين</a></li>
+        <li class="nav-item"><a class="nav-link" href="#" data-role="طالب">الطلاب</a></li>
       </ul>
 
       <div class="search-container">
@@ -121,7 +141,7 @@
     <div class="modal-content">
       <div class="modal-header bg-primary text-white">
         <h5 class="modal-title"><i class="fas fa-user-plus me-2"></i>إضافة مستخدم جديد</h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" id="closeUserModal" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <form id="addUserForm" novalidate>
         <div class="modal-body">
@@ -160,8 +180,10 @@
             <select class="form-select" id="typeInput" required>
               <option value="" selected disabled>اختر نوع المستخدم</option>
               <option value="طالب">طالب</option>
-              <option value="فني">فني</option>
+              <option value="فنى">فنى</option>
               <option value="دكتور">دكتور</option>
+              <option value="باحث">باحث</option>
+              <option value="مشرف">مشرف</option>
             </select>
             <div class="invalid-feedback">يرجى اختيار نوع المستخدم</div>
           </div>
@@ -169,8 +191,8 @@
           <div class="mb-3">
             <label for="statusInput" class="form-label">حالة المستخدم</label>
             <select class="form-select" id="statusInput" required>
-              <option value="active" selected>نشط</option>
-              <option value="inactive">غير نشط</option>
+              <option value="نشط" selected>نشط</option>
+              <option value="غير نشط">غير نشط</option>
             </select>
             <div class="invalid-feedback">يرجى تحديد حالة المستخدم</div>
           </div>
@@ -216,8 +238,10 @@
               <label for="editType" class="form-label">نوع المستخدم</label>
               <select class="form-select" id="editType" required>
                 <option value="طالب">طالب</option>
-                <option value="فني">فني</option>
+                <option value="فنى">فنى</option>
                 <option value="دكتور">دكتور</option>
+                <option value="باحث">باحث</option>
+                <option value="مشرف">مشرف</option>
               </select>
               <div class="invalid-feedback">يرجى اختيار نوع المستخدم</div>
             </div>
