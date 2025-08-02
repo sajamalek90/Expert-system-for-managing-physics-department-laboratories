@@ -83,91 +83,141 @@ body {
     margin-bottom: 20px;
 }
 
-.reports-container {
-    padding: 15px;
-}
-
-.independent-section {
-    margin-bottom: 20px;
-    background-color: #ffffff;
+.card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
 }
 
 .card-body {
-    padding: 15px;
-    text-align: center;
+    padding: 20px;
 }
 
-.export-buttons {
-    display: flex;
-    gap: 10px;
-    align-items: center;
+.table {
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
 }
 
-.btn-export {
-    padding: 8px 16px;
-    font-size: 14px;
-    cursor: pointer;
+.table thead th {
     background-color: var(--primary-color);
     color: white;
-    border: none;
-    border-radius: 5px;
-    transition: background-color 0.3s;
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
+    padding: 15px;
+    text-align: right;
+    font-weight: 500;
 }
 
-.btn-export:hover {
+.table tbody tr {
+    transition: background-color 0.2s ease;
+}
+
+.table tbody tr:hover {
+    background-color: var(--light-color);
+}
+
+.table td {
+    vertical-align: middle;
+    padding: 12px;
+}
+
+.badge.bg-success {
+    background-color: var(--success-color) !important;
+    padding: 6px 12px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    border-radius: 5px;
+    padding: 8px 16px;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
     background-color: var(--dark-color);
+    border-color: var(--dark-color);
 }
 
-.power-bi-report iframe {
-    border: none;
-    width: 100%;
-    min-height: 600px;
-}
-
-.report-nav {
-    display: flex;
-    gap: 15px;
-    padding: 10px 20px;
-    background-color: #f8f9fa;
-    border-bottom: 1px solid #dee2e6;
-}
-
-.report-link {
+.btn-outline-primary {
     color: var(--primary-color);
-    text-decoration: none;
-    font-size: 16px;
-    padding: 8px 12px;
-    transition: all 0.3s;
-}
-
-.report-link:hover {
-    color: var(--dark-color);
-    background-color: rgba(63, 81, 181, 0.1);
+    border-color: var(--primary-color);
     border-radius: 5px;
+    padding: 6px 12px;
 }
 
-.report-link.active {
-    color: var(--dark-color);
-    font-weight: bold;
-    border-bottom: 2px solid var(--secondary-color);
-}
-
-.alert {
-    border-radius: 5px;
-    margin-bottom: 20px;
-}
-
-.alert-success {
-    background-color: var(--success-color);
+.btn-outline-primary:hover {
+    background-color: var(--primary-color);
     color: white;
 }
 
-.alert-danger {
+.btn-outline-danger {
+    color: var(--danger-color);
+    border-color: var(--danger-color);
+    border-radius: 5px;
+    padding: 6px 12px;
+}
+
+.btn-outline-danger:hover {
     background-color: var(--danger-color);
     color: white;
+}
+
+.modal-content {
+    border-radius: 10px;
+    border: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.modal-header {
+    background-color: var(--primary-color);
+    color: white;
+    border-bottom: none;
+    padding: 15px 20px;
+}
+
+.modal-title {
+    font-weight: 600;
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+.modal-footer {
+    border-top: none;
+    padding: 15px 20px;
+}
+
+.modal .btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    border-radius: 5px;
+}
+
+.modal .btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.form-label {
+    color: var(--primary-color);
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.form-control {
+    border-radius: 5px;
+    border: 1px solid #ced4da;
+    padding: 10px;
+    transition: border-color 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 5px rgba(63, 81, 181, 0.3);
 }
 
 @media (max-width: 992px) {
@@ -204,6 +254,15 @@ body {
     .main-content {
         padding: 15px;
     }
+
+    .table-responsive {
+        font-size: 0.9rem;
+    }
+
+    .btn {
+        padding: 6px 10px;
+        font-size: 0.9rem;
+    }
 }
 
 @media (max-width: 576px) {
@@ -215,32 +274,13 @@ body {
         padding: 15px;
     }
 
-    .report-nav {
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .report-link {
+    .table td,
+    .table th {
+        padding: 8px;
         font-size: 0.85rem;
     }
 
-    .btn-export {
-        padding: 6px 10px;
-        font-size: 0.9rem;
+    .modal-dialog {
+        margin: 10px;
     }
-}
-
-/* إزالة حدود وخلفيات الكارد والحاويات المحيطة بالـ iframe */
-.card,
-.card-body,
-.independent-section {
-    border: none !important;
-    background: none !important;
-    padding: 0 !important;
-    margin: 0 !important;
-}
-
-/* ضبط الـ iframe لإزالة أي حدود إضافية */
-.report-content iframe {
-    border: none;
 }

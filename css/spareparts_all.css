@@ -1,0 +1,404 @@
+:root {
+    --primary-color: #3f51b5;
+    --secondary-color: #ff4081;
+    --dark-color: #303f9f;
+    --light-color: #f5f5f5;
+    --success-color: #4caf50;
+    --warning-color: #ffc107;
+    --danger-color: #f44336;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+}
+
+.sidebar {
+    background-color: var(--primary-color);
+    color: white;
+    height: 100vh;
+   position: fixed; /* تثبيت العنصر */
+  top: 0;          /* يبدأ من أعلى الصفحة */
+  right: 0;         /* في حالة اتجاه الصفحة rtl خليها right: 0 */
+  height: 100vh;   /* طول الشاشة كامل */
+  overflow-y: auto;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s;
+    z-index: 1000;
+}
+
+.sidebar .nav-link {
+    color: rgba(255, 255, 255, 0.85);
+    border-radius: 0;
+    padding: 12px 20px;
+    margin: 5px 0;
+    transition: all 0.3s;
+}
+
+.sidebar .nav-link:hover, .sidebar .nav-link.active {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    border-right: 4px solid var(--secondary-color);
+}
+
+.sidebar .nav-link i {
+    margin-left: 10px;
+    width: 24px;
+    text-align: center;
+}
+
+.main-content {
+    margin-right: 250px;
+    padding: 20px;
+    transition: all 0.3s;
+}
+
+.card {
+    border-radius : 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    border: none;
+    transition: transform 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card-header {
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 8px 8px 0 0 !important;
+    padding: 15px;
+    font-weight: bold;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+    background-color: var(--dark-color);
+    border-color: var(--dark-color);
+}
+
+.btn-secondary {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+}
+
+.status-available {
+    background-color: var(--success-color);
+    color: white;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+}
+
+.status-unavailable {
+    background-color: var(--danger-color);
+    color: white;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+}
+
+.status-maintenance {
+    background-color: var(--warning-color);
+    color: white;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+}
+
+.navbar {
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.search-bar {
+    border-radius: 20px;
+    border: 1px solid #ddd;
+    padding-right: 35px;
+}
+
+.search-icon {
+    position: absolute;
+    right: 12px;
+    top: 10px;
+    color: #777;
+}
+
+.device-icon {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+}
+
+.stat-card {
+    text-align: center;
+    padding: 15px;
+}
+
+.stat-card i {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    color: var(--primary-color);
+}
+
+.stat-card h2 {
+    font-size: 1.8rem;
+    margin-bottom: 5px;
+}
+
+.stat-card p {
+    color: #777;
+    margin-bottom: 0;
+}
+
+.notification-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: var(--danger-color);
+    color: white;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    font-size: 0.7rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-dropdown .dropdown-toggle::after {
+    display: none;
+}
+
+.profile-img {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.login-container {
+    display: flex;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--primary-color), var(--dark-color));
+}
+
+.login-form {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    width: 400px;
+}
+
+.login-logo {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 20px;
+    background-color: var(--primary-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 2.5rem;
+}
+
+.notification-menu {
+    max-height: 300px;
+    overflow-y: auto;
+    min-width: 300px;
+}
+
+.device-details-card {
+    padding: 20px;
+}
+
+.maintenance-history {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+@media (max-width: 992px) {
+    .sidebar {
+        width: 70px;
+        text-align: center;
+    }
+    
+    .sidebar .nav-link span {
+        display: none;
+    }
+    
+    .sidebar .nav-link i {
+        margin: 0;
+        font-size: 1.2rem;
+    }
+    
+    .main-content {
+        margin-right: 70px;
+    }
+}
+
+#reservationModal .form-group {
+    margin-bottom: 15px;
+}
+
+.calendar-container {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.calendar-day {
+    height: 120px;
+    border: 1px solid #ddd;
+    padding: 5px;
+    overflow-y: auto;
+}
+
+.calendar-header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 10px;
+    text-align: center;
+    border-radius: 4px;
+}
+
+.reservation-item {
+    background-color: rgba(63, 81, 181, 0.2);
+    border-left: 3px solid var(--primary-color);
+    padding: 5px;
+    margin-bottom: 5px;
+    font-size: 0.8rem;
+    border-radius: 3px;
+}
+
+.main-content {
+        margin-right: 250px;
+        padding: 20px;
+    }
+
+    .card {
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        padding: 10px;
+        margin-bottom: 20px;
+    }
+
+    .table-container {
+        overflow-x: auto;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: center;
+    }
+
+    thead {
+        background-color: #3f51b5;
+        color: white;
+    }
+
+    th, td {
+        padding: 10px;
+        border: 1px solid #ccc;
+    }
+
+    .btn-action-blue {
+        background-color: #2196f3;
+        color: white;
+        border: none;
+        padding: 6px 10px;
+        border-radius: 5px;
+        font-size: 14px;
+        cursor: pointer;
+    }
+
+    .btn-action-yellow {
+        background-color: #ffeb3b;
+        color: black;
+        border: none;
+        padding: 6px 10px;
+        border-radius: 5px;
+        font-size: 14px;
+        cursor: pointer;
+    }
+
+    .btn-action-blue:hover {
+        background-color: #1976d2;
+    }
+
+    .btn-action-yellow:hover {
+        background-color: #fdd835;
+    }
+
+    
+   .show-all-wrapper {
+  width: 100%;
+  text-align: left;  /* عشان يحط الزر على اليسار */
+  margin-bottom: 10px; /* مسافة تحت الزر */
+}
+
+#showAllBtn {
+  background-color: #3f51b5;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 5px;
+  font-size: 15px;
+  cursor: pointer;
+}
+.btn-custom-edit {
+  background-color: #ffc107;
+
+            color: black;
+            border: none;
+        }
+        .btn-custom-restock {
+            background-color: #3f51b5;
+            color: white;
+            border: none;
+        }
+ .action-buttons {
+            display: flex;
+            gap: 5px;
+            justify-content: center;
+        }
+
+    .btn-show-all:hover {
+        background-color: #0d154a;
+    }
+
+    .actions {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .d-flex-between {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+    .mov{
+        margin-right: 270px;
+        width: 80%;
+        margin-top: 60px;
+    }
+    h2{
+        margin-right: 290px;
+        margin-bottom: 50px;
+        margin-top: 50px;
+   
+    }
