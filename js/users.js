@@ -34,7 +34,7 @@ function loadUsers() {
       return response.json();
     })
     .then(data => {
-      console.log('البيانات المستلمة:', data);
+      // console.log('البيانات المستلمة:', data);
           data.sort((a, b) => new Date(b.registrationDate) - new Date(a.registrationDate));
 
 
@@ -142,7 +142,7 @@ function renderTable(data) {
   }
   
   pageUsers.forEach((user) => {
-    console.log('معالجة مستخدم:', user);
+    // console.log('معالجة مستخدم:', user);
     const status = getStatusArabic(user.status);
     const row = document.createElement("tr");
     row.innerHTML = `
@@ -295,7 +295,7 @@ function updateTable() {
   let role = activeTab ? activeTab.dataset.role : "all"; // fallback to 'all'
 
   
-  console.log('معايير البحث:', { search, role });
+  // console.log('معايير البحث:', { search, role });
   showLoading(true);
 
   let apiUrl = 'http://labmangmentsystemapi.runasp.net/api/Auth/AllUsers';
@@ -467,14 +467,14 @@ function addUser() {
   const passwordInput = document.getElementById('passwordInput');
   const typeInput = document.getElementById('typeInput');
   const statusInput = document.getElementById('statusInput');
-
+  
   // التحقق من صحة الحقول
-  if (!nameInput.value || !emailInput.value || !idInput.value || !phoneInput.value ||
+  if (!nameInput.value || !emailInput.value || !idInput.value || !phoneInput.value || 
       !passwordInput.value || !typeInput.value || !statusInput.value) {
     showAlert('يرجى ملء جميع الحقول المطلوبة', 'warning');
     return;
   }
-
+  
   // تجهيز بيانات المستخدم الجديد
   const newUser = {
     name: nameInput.value,
@@ -486,11 +486,11 @@ function addUser() {
     registrationDate: new Date().toISOString(),
     password: passwordInput.value
   };
-
+  
   console.log('بيانات المستخدم الجديد:', newUser);
-
+  
   showLoading(true);
-
+  
   fetch('http://labmangmentsystemapi.runasp.net/api/Auth/AddUser', {
     method: 'POST',
     headers: {
@@ -500,38 +500,63 @@ function addUser() {
     body: JSON.stringify(newUser)
   })
     .then(response => {
+      console.log(response);
+      console.log("he hereeee");
+      
+      // First check if the response is okay
       if (!response.ok) {
         return response.text().then(text => {
           throw new Error(text || 'فشل في إضافة المستخدم');
         });
       }
+      console.log("i'm not hereeee");
+
       return response.json();
     })
     .then(data => {
+      
+
+      console.log("i'm hereeee");
+      
       console.log('نتيجة إضافة المستخدم:', data);
-
-      // التحقق إذا تم الإضافة بنجاح
-      if (data.message=="User created successfully") {
+      
+      // المشكلة كانت هنا - تم تعديل التحقق من نجاح العملية
+      if (data) {
         showAlert('✅ تم إضافة المستخدم بنجاح', 'success');
-
-        const addUserModalEl = document.getElementById('addUserModal');
-        const addUserModal = bootstrap.Modal.getInstance(addUserModalEl);
-        if (addUserModal) {
-          addUserModal.hide();
-        }
-
+      console.log("whereee");
+        
+        // إغلاق المودال بعد النجاح
+        const addUserModalClose = document.getElementById('closeUserModal');
+        // const addUserModal = bootstrap.Modal.getInstance(addUserModalEl);
+        addUserModalClose.click()
+        
+        // إعادة تعيين النموذج
         document.getElementById('addUserForm').reset();
         document.getElementById('addUserForm').classList.remove('was-validated');
-
+        
+        // تحديث قائمة المستخدمين
         loadUsers();
       } else {
-        showAlert('⚠️ لم يتم إضافة المستخدم - تحقق من البيانات أو حاول لاحقًا', 'warning');
+        // رسالة الخطأ من الخادم إن وجدت
+        const errorMsg = data.message || 'لم يتم إضافة المستخدم - تحقق من البيانات';
+        showAlert(`⚠️ ${errorMsg}`, 'warning');
       }
     })
     .catch(error => {
-      console.error('حدث خطأ:', JSON.parse(error.message).message);
-
-      showAlert(`❌ حدث خطأ أثناء إضافة المستخدم: ${JSON.parse(error.message).message}`, 'danger');
+      console.error('حدث خطأ:', error);
+      
+      // محاولة استخراج رسالة الخطأ بشكل صحيح
+      let errorMessage = 'حدث خطأ أثناء إضافة المستخدم';
+      try {
+        if (error.message) {
+          const parsedError = JSON.parse(error.message);
+          errorMessage = parsedError.message || errorMessage;
+        }
+      } catch (e) {
+        errorMessage = error.message || errorMessage;
+      }
+      
+      showAlert(`❌ ${errorMessage}`, 'danger');
     })
     .finally(() => {
       showLoading(false);

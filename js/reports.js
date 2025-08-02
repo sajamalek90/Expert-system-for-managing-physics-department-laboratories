@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const token = getAuthToken();
             if (!token) throw new Error("No authorization token found");
 
-            const response = await fetch(`http://labmangmentsystemapi.runasp.net/api/export/pdf?${queryParams}`, {
+            const response = await fetch(`http://labmangmentsystemapi.runasp.net/api/export/FilteredUsage/pdf?${queryParams}`, {
                 method: "GET",
                 headers: {
                     "Authorization": `Bearer ${token}`,
@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const token = getAuthToken();
             if (!token) throw new Error("No authorization token found");
 
-            const response = await fetch(`http://labmangmentsystemapi.runasp.net/api/export/excel?${queryParams}`, {
+            const response = await fetch(`http://labmangmentsystemapi.runasp.net/api/export/FilteredUsage/excel?${queryParams}`, {
                 method: "GET",
                 headers: {
                     "Authorization": `Bearer ${token}`,
@@ -95,7 +95,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if (!response.ok) {
                 const errorData = await response.json();
-                throw new Error(errorData.message || `Logout request narrated with status ${response.status}`);
+                throw new Error(errorData.message || `Logout request failed with status ${response.status}`);
             }
 
             const data = await response.json();
@@ -123,6 +123,14 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
+    // دالة لإخفاء مؤشر التحميل بعد تحميل الـ iframe
+    window.hideLoading = function (loadingElementId) {
+        const loadingElement = document.getElementById(loadingElementId);
+        if (loadingElement) {
+            loadingElement.style.display = "none";
+        }
+    };
+
     // التهيئة الأولية
     const pdfButton = document.querySelector('button[onclick="exportPDF()"]');
     const excelButton = document.querySelector('button[onclick="exportExcel()"]');
@@ -140,15 +148,14 @@ document.addEventListener("DOMContentLoaded", function () {
             document.querySelectorAll('.report-link').forEach(l => l.classList.remove('active'));
             // Add active class to clicked link
             this.classList.add('active');
-            // Hide Power BI section
-            document.getElementById('power-bi-section').style.display = 'none';
-            // Show report content section
-            document.getElementById('report-content-section').style.display = 'block';
             // Hide all report contents
             document.querySelectorAll('.report-content').forEach(content => content.style.display = 'none');
             // Show the selected report content
             const reportType = this.getAttribute('data-report-type');
-            document.getElementById(`${reportType}-report`).style.display = 'block';
+            const targetReport = document.getElementById(`${reportType}-report`);
+            if (targetReport) {
+                targetReport.style.display = 'block';
+            }
         });
     });
 });

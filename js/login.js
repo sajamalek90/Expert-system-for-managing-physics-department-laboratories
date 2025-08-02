@@ -16,7 +16,7 @@ document.getElementById("loginForm").addEventListener("submit", async function (
         document.getElementById("usernameError").textContent = "يرجى إدخال اسم المستخدم.";
         isValid = false;
     } else if (username.length < 7) {
-        document.getElementById("usernameError").textContent = "اسم المستخدم يجب أن يكون 7  أحرف على الأقل.";
+        document.getElementById("usernameError").textContent = "اسم المستخدم يجب أن يكون 7 أحرف على الأقل.";
         isValid = false;
     } else if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(username)) {
         document.getElementById("usernameError").textContent = "يرجى إدخال بريد إلكتروني صالح (حروف إنجليزية، أرقام، ورموز مثل @، .، _، -).";
@@ -34,51 +34,51 @@ document.getElementById("loginForm").addEventListener("submit", async function (
         document.getElementById("passwordError").textContent = "كلمة المرور يجب أن تحتوي على أحرف وأرقام فقط.";
         isValid = false;
     }
-    window.location.href = "dashboard.html";
-    // if (isValid) {
-    //     try {
-    //         // إرسال طلب تسجيل الدخول إلى API
-    //         const response = await fetch("http://labmangmentsystemapi.runasp.net/api/Auth/Login", {
-    //             method: "POST",
-    //             headers: {
-    //                 "Content-Type": "application/json",
-    //             },
-    //             body: JSON.stringify({
-    //                 email: username,
-    //                 password: password,
-    //             }),
-    //         });
 
-    //         const data = await response.json();
+    if (isValid) {
+        try {
+            // إرسال طلب تسجيل الدخول إلى API
+            const response = await fetch("http://labmangmentsystemapi.runasp.net/api/Auth/Login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    email: username,
+                    password: password,
+                }),
+            });
 
-    //         if (response.ok) {
-    //             // التأكد من وجود token في الاستجابة
-    //             if (!data.token) {
-    //                 throw new Error("No token received from server");
-    //             }
+            const data = await response.json();
 
-    //             // تخزين بيانات المستخدم والتوكن في localStorage
-    //             localStorage.setItem("token", data.token);
-    //             // إذا كان هناك بيانات مستخدم، قم بتخزينها، وإلا تجاهل
-    //             if (data.user) {
-    //                 localStorage.setItem("user", JSON.stringify(data.user));
-    //             }
-    //             localStorage.setItem("isLoggedIn", "true");
+            if (response.ok) {
+                // التأكد من وجود token في الاستجابة
+                if (!data.token) {
+                    throw new Error("No token received from server");
+                }
 
-    //             if (remember) {
-    //                 localStorage.setItem("remember", "true");
-    //             }
+                // تخزين بيانات المستخدم والتوكن في localStorage
+                localStorage.setItem("token", data.token);
+                // إذا كان هناك بيانات مستخدم، قم بتخزينها، وإلا تجاهل
+                if (data.user) {
+                    localStorage.setItem("user", JSON.stringify(data.user));
+                }
+                localStorage.setItem("isLoggedIn", "true");
 
-    //             window.location.href = "dashboard.html";
-    //         } else {
-    //             // عرض رسالة الخطأ من الـ API
-    //             document.getElementById("usernameError").textContent =
-    //                 data.message || "بيانات تسجيل الدخول غير صحيحة.";
-    //         }
-    //     } catch (error) {
-    //         console.error("Error during login:", error);
-    //         document.getElementById("usernameError").textContent =
-    //             "حدث خطأ أثناء تسجيل الدخول. يرجى المحاولة لاحقًا.";
-    //     }
-    // }
+                if (remember) {
+                    localStorage.setItem("remember", "true");
+                }
+
+                window.location.href = "dashboard.html";
+            } else {
+                // عرض رسالة الخطأ من الـ API
+                document.getElementById("usernameError").textContent =
+                    data.message || "بيانات تسجيل الدخول غير صحيحة.";
+            }
+        } catch (error) {
+            console.error("Error during login:", error);
+            document.getElementById("usernameError").textContent =
+                "حدث خطأ أثناء تسجيل الدخول. يرجى المحاولة لاحقًا.";
+        }
+    }
 });
